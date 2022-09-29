@@ -1,1 +1,12 @@
-from ._autotrace import *  # noqa: F401, F403
+"""Python bindings for AutoTrace."""
+
+from .autotrace import (  # noqa: F401
+    Bitmap,
+    Color,
+    Path,
+    Point,
+    PolynomialDegree,
+    Spline,
+    TraceOptions,
+    VectorImage,
+)

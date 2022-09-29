@@ -6,6 +6,7 @@ cdef extern from "glib.h":
     ctypedef char gchar
     ctypedef float gfloat
     ctypedef void* gpointer
+    ctypedef unsigned char guint8
 
 # https://github.com/autotrace/autotrace/blob/master/src/color.h
 cdef extern from "color.h":
@@ -14,6 +15,9 @@ cdef extern from "color.h":
         unsigned char r
         unsigned char g
         unsigned char b
+
+    at_color* at_color_new(guint8 r, guint8 g, guint8 b)
+    void at_color_free(at_color* color)
 
 # https://github.com/autotrace/autotrace/blob/master/src/types.h
 cdef extern from "types.h":
@@ -120,7 +124,8 @@ cdef extern from "autotrace.h":
 
     at_fitting_opts_type* at_fitting_opts_new()
     at_fitting_opts_type* at_fitting_opts_copy(at_fitting_opts_type* original)
-    void at_fitting_opts_free(at_fitting_opts_type* opts)
+    # Defined in _autotrace.pyx.
+    # void at_fitting_opts_free(at_fitting_opts_type* opts)
     const char* at_fitting_opts_doc_func(char* string)
 
     at_input_opts_type* at_input_opts_new()
