@@ -8,27 +8,29 @@ from .autotrace import Color, Path, Point, Spline, VectorImage
 
 
 # Allocate memory and initialize it to zero.
-cdef void* alloc(size_t size):
-    cdef void* ptr = libc.stdlib.calloc(1, size)
+cdef void *alloc(size_t size):
+    cdef void *ptr = libc.stdlib.calloc(1, size)
     if ptr == NULL:
         raise MemoryError()
+
     return ptr
 
 
 # Fixes a bug in AutoTrace's at_fitting_opts_free function.
-cdef void at_fitting_opts_free(at_fitting_opts_type* opts):
-    if (opts.background_color != NULL):
+cdef void at_fitting_opts_free(at_fitting_opts_type *opts):
+    if opts.background_color != NULL:
         at_color_free(opts.background_color)
+
     libc.stdlib.free(opts)
 
 
 # Convert an array object to an at_bitmap struct.
-cdef at_bitmap* array_to_at_bitmap(data):
+cdef at_bitmap *array_to_at_bitmap(data):
     cdef int height = len(data)
     cdef int width = len(data[0])
     cdef int np = len(data[0][0])
 
-    cdef at_bitmap* bitmap = at_bitmap_new(width, height, np)
+    cdef at_bitmap *bitmap = at_bitmap_new(width, height, np)
 
     cdef int x, y, p, i = 0
     for y in range(height):
@@ -41,8 +43,8 @@ cdef at_bitmap* array_to_at_bitmap(data):
 
 
 # Convert a TraceOptions object to an at_fitting_opts struct.
-cdef at_fitting_opts_type* trace_options_to_at_fitting_opts(options):
-    cdef at_fitting_opts_type* opts = at_fitting_opts_new()
+cdef at_fitting_opts_type *trace_options_to_at_fitting_opts(options):
+    cdef at_fitting_opts_type *opts = at_fitting_opts_new()
 
     if options.background_color is not None:
         opts.background_color = at_color_new(
@@ -73,14 +75,8 @@ cdef at_fitting_opts_type* trace_options_to_at_fitting_opts(options):
 
 
 # Convert a VectorImage object to an at_spline_list_array struct.
-cdef at_spline_list_array_type* vector_image_to_at_splines(vector_image):
-    at_spline_list_array = <at_spline_list_array_type*>alloc(sizeof(at_spline_list_array_type))
-
-    at_spline_list_array.width = vector_image.width
-    at_spline_list_array.height = vector_image.height
-    at_spline_list_array.centerline = vector_image.centerline
-    at_spline_list_array.preserve_width = vector_image.preserve_width
-    at_spline_list_array.width_weight_factor = vector_image.width_weight_factor
+cdef at_spline_list_array_type *vector_image_to_at_splines(vector_image):
+    at_spline_list_array = <at_spline_list_array_type *>alloc(sizeof(at_spline_list_array_type))
 
     if vector_image.background_color is not None:
         at_spline_list_array.background_color = at_color_new(
@@ -89,8 +85,13 @@ cdef at_spline_list_array_type* vector_image_to_at_splines(vector_image):
             vector_image.background_color.b,
         )
 
+    at_spline_list_array.width = vector_image.width
+    at_spline_list_array.height = vector_image.height
+    at_spline_list_array.centerline = vector_image.centerline
+    at_spline_list_array.preserve_width = vector_image.preserve_width
+    at_spline_list_array.width_weight_factor = vector_image.width_weight_factor
     at_spline_list_array.length = len(vector_image)
-    at_spline_list_array.data = <at_spline_list_type*>alloc(sizeof(at_spline_list_type) * at_spline_list_array.length)
+    at_spline_list_array.data = <at_spline_list_type *>alloc(sizeof(at_spline_list_type) * at_spline_list_array.length)
 
     cdef int i, j, k
     for i in range(len(vector_image)):
@@ -103,7 +104,7 @@ cdef at_spline_list_array_type* vector_image_to_at_splines(vector_image):
         at_spline_list.clockwise = path.clockwise
         at_spline_list.open = path.open
         at_spline_list.length = len(path)
-        at_spline_list.data = <at_spline_type*>alloc(sizeof(at_spline_type) * at_spline_list.length)
+        at_spline_list.data = <at_spline_type *>alloc(sizeof(at_spline_type) * at_spline_list.length)
 
         for j in range(len(path)):
             spline = path.splines[j]
@@ -121,7 +122,7 @@ cdef at_spline_list_array_type* vector_image_to_at_splines(vector_image):
 
 
 # Convert an at_spline_list_array struct to a VectorImage object.
-cdef at_splines_to_vector_image(at_spline_list_array_type* at_spline_list_array):
+cdef at_splines_to_vector_image(at_spline_list_array_type *at_spline_list_array):
     if at_spline_list_array.background_color != NULL:
         background_color = Color(
             r=at_spline_list_array.background_color.r,
@@ -141,6 +142,7 @@ cdef at_splines_to_vector_image(at_spline_list_array_type* at_spline_list_array)
         width_weight_factor=at_spline_list_array.width_weight_factor,
     )
 
+    cdef int i, j, k
     for i in range(at_spline_list_array.length):
         at_spline_list = at_spline_list_array.data[i]
 
@@ -172,6 +174,7 @@ cdef at_splines_to_vector_image(at_spline_list_array_type* at_spline_list_array)
                     y=at_spline.v[k].y,
                     z=at_spline.v[k].z,
                 )
+
                 spline.points.append(point)
 
             path.splines.append(spline)
@@ -182,26 +185,30 @@ cdef at_splines_to_vector_image(at_spline_list_array_type* at_spline_list_array)
 
 
 # Trace a bitmap image.
-cpdef trace(data, options = None):
-    cdef at_bitmap* bitmap = array_to_at_bitmap(data)
-    cdef at_fitting_opts_type* opts
+def trace(data, options = None):
+    cdef at_bitmap *bitmap = array_to_at_bitmap(data)
+    cdef at_fitting_opts_type *opts
+
     if options is not None:
         opts = trace_options_to_at_fitting_opts(options)
     else:
         opts = at_fitting_opts_new()
  
-    cdef at_spline_list_array_type* at_spline_list_array = at_splines_new(bitmap, opts, NULL, NULL)
+    cdef at_spline_list_array_type *at_spline_list_array = at_splines_new(bitmap, opts, NULL, NULL)
     vector_image = at_splines_to_vector_image(at_spline_list_array)
+
     at_bitmap_free(bitmap)
     at_fitting_opts_free(opts)
     at_splines_free(at_spline_list_array)
+
     return vector_image
 
 
 # Save a VectorImage object to a file.
-cpdef save(vector_image, filename, format = None):
+def save(vector_image, filename, format = None):
     filename_bytes = filename.encode("utf-8")
-    cdef at_spline_writer* writer = NULL
+    cdef at_spline_writer *writer = NULL
+
     if format is None:
         writer = at_output_get_handler(filename_bytes)
         if writer is NULL:
@@ -210,11 +217,15 @@ cpdef save(vector_image, filename, format = None):
         writer = at_output_get_handler_by_suffix(format.encode("utf-8"))
         if writer is NULL:
             raise ValueError(f"unknown output format '{format}'")
-    cdef FILE* fd = libc.stdio.fopen(filename_bytes, "wb")
+
+    cdef FILE *fd = libc.stdio.fopen(filename_bytes, "wb")
     if fd is NULL:
         raise IOError(f"could not open file '{filename}' for writing")
-    cdef at_spline_list_array_type* at_spline_list_array = vector_image_to_at_splines(vector_image)
+
+    cdef at_spline_list_array_type *at_spline_list_array = vector_image_to_at_splines(vector_image)
+
     at_splines_write(writer, fd, filename_bytes, NULL, at_spline_list_array, NULL, NULL)
+
     libc.stdio.fclose(fd)
     at_splines_free(at_spline_list_array)
 
