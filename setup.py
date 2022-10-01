@@ -2,7 +2,7 @@ from setuptools import Extension, setup
 
 from Cython.Build import cythonize
 
-at_dir = "third-party/autotrace-master/src/"
+at_dir = "third-party/autotrace/src/"
 
 at_sources = [
     "fit.c",
@@ -12,10 +12,10 @@ at_sources = [
     "epsilon-equal.c",
     "vector.c",
     "color.c",
-    "datetime.c",
+    # "datetime.c",
     "autotrace.c",
-    "output.c",
-    "input.c",
+    # "output.c",
+    # "input.c",
     "pxl-outline.c",
     "median.c",
     "thin-image.c",
@@ -42,10 +42,10 @@ at_sources = [
     "output-pov.c",
     "output-plt.c",
     "output-ild.c",
-    "input-bmp.c",
-    "input-pnm.c",
-    "input-tga.c",
-    "input-gf.c",
+    # "input-bmp.c",
+    # "input-pnm.c",
+    # "input-tga.c",
+    # "input-gf.c",
 ]
 
 at_sources = [at_dir + s for s in at_sources]
@@ -55,23 +55,19 @@ extensions = [
         "autotrace._autotrace",
         sources=[
             "autotrace/_autotrace.pyx",
+            "autotrace/overrides.cpp",
             *at_sources,
         ],
         include_dirs=[
             at_dir,
-            "third-party/autotrace-master/distribute/win/3rdparty/glib-2/include/glib-2.0/",
-            "third-party/autotrace-master/distribute/win/3rdparty/glib-2/lib/glib-2.0/include/",
+            "third-party/autotrace/distribute/win/3rdparty/glib/include/glib-2.0/",
+            "third-party/autotrace/distribute/win/3rdparty/glib/lib/glib-2.0/include/",
         ],
         define_macros=[
             ("AUTOTRACE_VERSION", '"0.40.0"'),
             ("AUTOTRACE_WEB", '"https://github.com/autotrace/autotrace"'),
-        ],
-        libraries=[
-            "glib-2.0",
-            "gobject-2.0",
-        ],
-        library_dirs=[
-            "third-party/autotrace-master/distribute/win/3rdparty/glib-2/lib/",
+            ("HAVE_MAGICK_READERS", 1),
+            ("GLIB_STATIC_COMPILATION", 1),
         ],
     ),
 ]
@@ -104,5 +100,5 @@ setup(
     ],
     packages=["autotrace"],
     python_requires=">=3.8.10",
-    ext_modules=cythonize(extensions, compiler_directives={'language_level': 3}),
+    ext_modules=cythonize(extensions, compiler_directives={"language_level": 3}),
 )
