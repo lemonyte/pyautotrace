@@ -96,9 +96,12 @@ setup(
         "Topic :: Multimedia :: Graphics :: Graphics Conversion",
         "Topic :: Scientific/Engineering :: Image Processing",
         "Topic :: Software Development :: Libraries :: Python Modules",
-        # "Typing :: Typed",  # see TODO
+        "Typing :: Typed",
     ],
     packages=["autotrace"],
+    package_data={
+        "autotrace": ["py.typed"],
+    },
     python_requires=">=3.8.10",
     ext_modules=cythonize(extensions, compiler_directives={"language_level": 3}),
 )
