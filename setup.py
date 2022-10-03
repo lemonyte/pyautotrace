@@ -102,6 +102,6 @@ setup(
     package_data={
         "autotrace": ["py.typed"],
     },
-    python_requires=">=3.8.10",
+    python_requires=">=3.7.9",
     ext_modules=cythonize(extensions, compiler_directives={"language_level": 3}),
 )
