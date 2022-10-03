@@ -77,7 +77,7 @@ with open("readme.md", "r") as file:
 
 setup(
     name="pyautotrace",
-    version="0.0.1",
+    version="0.0.2",
     description="Python bindings for AutoTrace.",
     long_description=long_description,
     long_description_content_type="text/markdown",
