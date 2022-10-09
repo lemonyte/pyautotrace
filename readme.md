@@ -8,7 +8,23 @@ Python bindings for [AutoTrace](https://github.com/autotrace/autotrace).
 - [Python 3.7](https://www.python.org/downloads/) or higher
 
 ## Usage
-Usage instructions.
+```python
+import numpy as np
+from autotrace import Bitmap
+from PIL import Image
+
+# Load an image.
+image = np.asarray(Image.open('image.jpeg').convert('RGB'))
+
+# Create a bitmap.
+bitmap = Bitmap(image)
+
+# Trace the bitmap.
+vector = bitmap.trace()
+
+# Save the vector.
+vector.save("image.svg")
+```
 
 ## Building
 ### Windows
