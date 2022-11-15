@@ -107,6 +107,7 @@ extern "C"
 
     /* ghash.c */
 
+#ifndef g_str_equal
     gboolean g_str_equal(gconstpointer v1, gconstpointer v2)
     {
         const gchar *string1 = reinterpret_cast<const gchar *>(v1);
@@ -114,6 +115,7 @@ extern "C"
 
         return strcmp(string1, string2) == 0;
     }
+#endif
 
     /* gmessages.c */
 
@@ -125,11 +127,16 @@ extern "C"
         va_end(args);
     }
 
+    void g_return_if_fail_warning(const char *log_domain, const char *pretty_function, const char *expression)
+    {
+        printf("Warning: Assertion failed: %s\n", expression);
+    }
+
     /* gtestutils.c */
 
     void g_assertion_message(const char *domain, const char *file, int line, const char *func, const char *message)
     {
-        printf("Assertion failed: %s", message == NULL ? "" : message);
+        printf("Assertion failed: %s\n", message == NULL ? "" : message);
     }
 
     /* gquark.c */
