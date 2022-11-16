@@ -14,8 +14,8 @@ try
         }
         elseif ((Get-Location).Path -eq "$(Split-Path $PSScriptRoot -Qualifier)\")
         {
-            Write-Host "setup.py not found."
-            exit
+            Write-Host "Error: setup.py not found."
+            exit 1
         }
         else
         {
@@ -63,6 +63,8 @@ try
     Write-Host "Building distributions..."
     python setup.py sdist
     python setup.py bdist_wheel
+
+    Write-Host "Finished."
 }
 finally
 {
