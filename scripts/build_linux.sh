@@ -5,8 +5,12 @@ while true
 do
     if [ -e "setup.py" ]
     then
-        root=$PWD
+        base_directory=$PWD
         break
+    elif [ $PWD = "/" ]
+    then
+        echo "Error: setup.py not found."
+        exit 1
     else
         cd ..
     fi
@@ -35,7 +39,7 @@ then
     git clone https://github.com/autotrace/autotrace.git
     cd autotrace
     git reset --hard fcd9043f6227979ea2b21ac5d9f796325bdb1343
-    cd $root
+    cd $base_directory
 fi
 
 # Clean build files.
@@ -50,3 +54,5 @@ fi
 echo "Building distributions..."
 python setup.py sdist
 python setup.py bdist_wheel
+
+echo "Finished."
