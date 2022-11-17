@@ -1,10 +1,11 @@
+import platform
 from setuptools import Extension, setup
 
 from Cython.Build import cythonize
 
-at_dir = "third-party/autotrace/src/"
+autotrace_src_dir = "third-party/autotrace/src/"
 
-at_sources = [
+autotrace_sources = [
     "fit.c",
     "bitmap.c",
     "spline.c",
@@ -48,7 +49,27 @@ at_sources = [
     # "input-gf.c",
 ]
 
-at_sources = [at_dir + s for s in at_sources]
+autotrace_sources = [autotrace_src_dir + source for source in autotrace_sources]
+include_dirs = [autotrace_src_dir]
+if platform.system() == "Windows":
+    include_dirs.extend(
+        [
+            "third-party/autotrace/distribute/win/3rdparty/glib/include/glib-2.0/",
+            "third-party/autotrace/distribute/win/3rdparty/glib/lib/glib-2.0/include/",
+        ]
+    )
+elif platform.system() == "Linux":
+    include_dirs.extend(
+        [
+            "/usr/include/glib-2.0/",
+            "/usr/lib/x86_64-linux-gnu/glib-2.0/include/",
+        ]
+    )
+elif platform.system() == "Darwin":
+    # TODO: MacOS support
+    raise NotImplementedError("MacOS is not supported yet.")
+else:
+    raise RuntimeError(f"Unsupported platform: {platform.system()}")
 
 extensions = [
     Extension(
@@ -56,13 +77,9 @@ extensions = [
         sources=[
             "autotrace/_autotrace.pyx",
             "autotrace/overrides.cpp",
-            *at_sources,
+            *autotrace_sources,
         ],
-        include_dirs=[
-            at_dir,
-            "third-party/autotrace/distribute/win/3rdparty/glib/include/glib-2.0/",
-            "third-party/autotrace/distribute/win/3rdparty/glib/lib/glib-2.0/include/",
-        ],
+        include_dirs=include_dirs,
         define_macros=[
             ("AUTOTRACE_VERSION", '"0.40.0"'),
             ("AUTOTRACE_WEB", '"https://github.com/autotrace/autotrace"'),
