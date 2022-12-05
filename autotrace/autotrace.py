@@ -80,7 +80,7 @@ class VectorImage:
         return len(self.paths)
 
     def save(self, filename: str, format: Optional[str] = None):
-        save(self, filename, format)
+        _save(self, filename, format)
 
 
 @dataclass
@@ -91,7 +91,10 @@ class Bitmap:
         return len(self.data)
 
     def trace(self, options: Optional[TraceOptions] = None) -> VectorImage:
-        return trace(self.data, options)
+        return _trace(self.data, options)
 
 
-from ._autotrace import save, trace  # noqa: E402
+from ._autotrace import (  # noqa: E402
+    save as _save,
+    trace as _trace,
+)
