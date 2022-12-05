@@ -1,10 +1,11 @@
 import os
 import platform
+from pathlib import Path
 from setuptools import Extension, setup
 
 from Cython.Build import cythonize
 
-autotrace_src_dir = "third-party/autotrace/src/"
+autotrace_src_dir = os.environ.get("PYAUTOTRACE_SRC_DIR", "third-party/autotrace/src")
 
 autotrace_sources = [
     "fit.c",
@@ -50,11 +51,11 @@ autotrace_sources = [
     # "input-gf.c",
 ]
 
-autotrace_sources = [autotrace_src_dir + source for source in autotrace_sources]
+autotrace_sources = [str(Path(autotrace_src_dir) / source) for source in autotrace_sources]
 
 include_dirs = [autotrace_src_dir]
 if os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES"):
-    include_dirs += [os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES")]
+    include_dirs += os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES").split(":")
 
 
 if platform.system() == "Windows":
@@ -111,6 +112,8 @@ extensions = [
 
 with open("readme.md", "r") as file:
     long_description = file.read()
+
+print(f"***************** {list(os.environ.keys())}")
 
 setup(
     name="pyautotrace",
