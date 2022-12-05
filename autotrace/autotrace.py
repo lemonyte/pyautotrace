@@ -55,7 +55,7 @@ class Spline:
     linearity: float
 
     def eval_at_points(self, pts):
-        return evaluate_spline_at_points(self, pts)
+        return _evaluate_spline_at_points(self, pts)
 
 
 @dataclass
@@ -97,11 +97,8 @@ class Bitmap:
         return _trace(self.data, options)
 
 
-<<<<<<< HEAD
 from ._autotrace import (  # noqa: E402
     save as _save,
     trace as _trace,
+    evaluate_spline_at_points as _evaluate_spline_at_points,
 )
-=======
-from ._autotrace import save, trace, evaluate_spline_at_points  # noqa: E402
->>>>>>> Building with macos

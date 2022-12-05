@@ -3,13 +3,9 @@
 cimport libc.stdlib
 cimport libc.stdio
 from ._autotrace cimport *
-<<<<<<< HEAD
-from .autotrace import Color, Path, Point, Spline, Vector
-=======
-from .autotrace import Color, Path, Point, Spline, VectorImage
+from .autotrace import Color, Path, Point, Spline, VectorImage, Vector
 import numpy as np
 from cython.view cimport array as cvarray
->>>>>>> Building with macos
 
 
 # Allocate memory and initialize it to zero.
