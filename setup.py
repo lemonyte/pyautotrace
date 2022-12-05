@@ -55,6 +55,7 @@ autotrace_sources = [str(Path(autotrace_src_dir) / source) for source in autotra
 
 include_dirs = [autotrace_src_dir]
 if os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES"):
+    # Sometimes needed for Python.h
     include_dirs += os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES").split(":")
 
 
@@ -73,12 +74,11 @@ elif platform.system() == "Linux":
         ]
     )
 elif platform.system() == "Darwin":
-    # Installed via brew install glib
+    # As installed via "brew install glib"
     include_dirs.extend(
         [
             "/usr/local/Cellar/glib/2.74.0/lib/glib-2.0/include",
             "/usr/local/Cellar/glib/2.74.0/include/glib-2.0",
-            # "/usr/local/Cellar/glib/2.74.0/include/glib-2.0/glib",
         ]
     )
 
@@ -110,10 +110,8 @@ extensions = [
     ),
 ]
 
-with open("readme.md", "r") as file:
+with open("README.md", "r") as file:
     long_description = file.read()
-
-print(f"***************** {list(os.environ.keys())}")
 
 setup(
     name="pyautotrace",
