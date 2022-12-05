@@ -67,7 +67,7 @@ class Path:
 
 
 @dataclass
-class VectorImage:
+class Vector:
     paths: Sequence[Path]
     width: int
     height: int
@@ -90,7 +90,7 @@ class Bitmap:
     def __len__(self):
         return len(self.data)
 
-    def trace(self, options: Optional[TraceOptions] = None) -> VectorImage:
+    def trace(self, options: Optional[TraceOptions] = None) -> Vector:
         return _trace(self.data, options)
 
 

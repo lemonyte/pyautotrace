@@ -4,7 +4,7 @@ cimport libc.stdlib
 cimport libc.stdio
 
 from ._autotrace cimport *
-from .autotrace import Color, Path, Point, Spline, VectorImage
+from .autotrace import Color, Path, Point, Spline, Vector
 
 
 # Allocate memory and initialize it to zero.
@@ -74,7 +74,7 @@ cdef at_fitting_opts_type *trace_options_to_at_fitting_opts(options):
     return opts
 
 
-# Convert a VectorImage object to an at_spline_list_array struct.
+# Convert a Vector object to an at_spline_list_array struct.
 cdef at_spline_list_array_type *vector_image_to_at_splines(vector_image):
     at_spline_list_array = <at_spline_list_array_type *>alloc(sizeof(at_spline_list_array_type))
 
@@ -121,7 +121,7 @@ cdef at_spline_list_array_type *vector_image_to_at_splines(vector_image):
     return at_spline_list_array
 
 
-# Convert an at_spline_list_array struct to a VectorImage object.
+# Convert an at_spline_list_array struct to a Vector object.
 cdef at_splines_to_vector_image(at_spline_list_array_type *at_spline_list_array):
     if at_spline_list_array.background_color != NULL:
         background_color = Color(
@@ -132,7 +132,7 @@ cdef at_splines_to_vector_image(at_spline_list_array_type *at_spline_list_array)
     else:
         background_color = None
 
-    vector_image = VectorImage(
+    vector_image = Vector(
         paths=[],
         width=at_spline_list_array.width,
         height=at_spline_list_array.height,
@@ -204,7 +204,7 @@ def trace(data, options = None):
     return vector_image
 
 
-# Save a VectorImage object to a file.
+# Save a Vector object to a file.
 def save(vector_image, filename, format = None):
     filename_bytes = filename.encode("utf-8")
     cdef at_spline_writer *writer = NULL

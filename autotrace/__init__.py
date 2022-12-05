@@ -8,5 +8,5 @@ from .autotrace import (  # noqa: F401
     PolynomialDegree,
     Spline,
     TraceOptions,
-    VectorImage,
+    Vector,
 )
