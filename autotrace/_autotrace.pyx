@@ -2,9 +2,10 @@
 
 cimport libc.stdlib
 cimport libc.stdio
-
 from ._autotrace cimport *
 from .autotrace import Color, Path, Point, Spline, VectorImage
+import numpy as np
+from cython.view cimport array as cvarray
 
 
 # Allocate memory and initialize it to zero.
@@ -229,6 +230,24 @@ def save(vector_image, filename, format = None):
     libc.stdio.fclose(fd)
     at_splines_free(at_spline_list_array)
 
+
+def evaluate_spline_at_points(spline, points):
+    n_points = points.shape[0]
+    cdef at_spline_type *at_spline = <at_spline_type *>alloc(sizeof(at_spline_type))
+    for i in range(4):
+        at_spline.v[i].x = spline.points[i].x
+        at_spline.v[i].y = spline.points[i].y
+        at_spline.v[i].z = spline.points[i].z
+    at_spline.degree = spline.degree
+    at_spline.linearity = spline.linearity
+    cdef float[:,:] new_arr = cvarray(shape=(n_points, 2), itemsize=sizeof(float), format="f") 
+    cdef at_real_coord coord
+    for i, point in enumerate(points):
+        coord = evaluate_spline(at_spline[0], point)
+        new_arr[i][0] = coord.x
+        new_arr[i][1] = coord.y
+    libc.stdlib.free(at_spline)
+    return np.asarray(new_arr)
 
 # Initialize AutoTrace.
 autotrace_init()

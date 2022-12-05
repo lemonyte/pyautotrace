@@ -1,3 +1,4 @@
+import os
 import platform
 from setuptools import Extension, setup
 
@@ -50,7 +51,12 @@ autotrace_sources = [
 ]
 
 autotrace_sources = [autotrace_src_dir + source for source in autotrace_sources]
+
 include_dirs = [autotrace_src_dir]
+if os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES"):
+    include_dirs += [os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES")]
+
+
 if platform.system() == "Windows":
     include_dirs.extend(
         [
@@ -66,8 +72,15 @@ elif platform.system() == "Linux":
         ]
     )
 elif platform.system() == "Darwin":
-    # TODO: MacOS support
-    raise NotImplementedError("MacOS is not supported yet.")
+    # Installed via brew install glib
+    include_dirs.extend(
+        [
+            "/usr/local/Cellar/glib/2.74.0/lib/glib-2.0/include",
+            "/usr/local/Cellar/glib/2.74.0/include/glib-2.0",
+            # "/usr/local/Cellar/glib/2.74.0/include/glib-2.0/glib",
+        ]
+    )
+
 else:
     raise RuntimeError(f"Unsupported platform: {platform.system()}")
 
@@ -86,6 +99,13 @@ extensions = [
             ("HAVE_MAGICK_READERS", 1),
             ("GLIB_STATIC_COMPILATION", 1),
         ],
+        extra_compile_args=[
+            "-Wno-sign-compare",
+            "-Wno-c++11-compat-deprecated-writable-strings",
+            "-Wno-c++11-extensions",
+            "-Wno-tautological-constant-compare",
+            "-Wno-unused-variable",
+        ]
     ),
 ]
 
