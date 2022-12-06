@@ -3,7 +3,7 @@
 cimport libc.stdlib
 cimport libc.stdio
 from ._autotrace cimport *
-from .autotrace import Color, Path, Point, Spline, VectorImage, Vector
+from .autotrace import Color, Path, Point, Spline, Vector
 import numpy as np
 from cython.view cimport array as cvarray
 
