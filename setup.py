@@ -56,8 +56,7 @@ autotrace_sources = [str(Path(autotrace_src_dir) / source) for source in autotra
 include_dirs = [autotrace_src_dir]
 if os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES"):
     # Sometimes needed for Python.h
-    include_dirs += os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES").split(":")
-
+    include_dirs.extend(os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES").split(":"))
 
 if platform.system() == "Windows":
     include_dirs.extend(
@@ -81,7 +80,6 @@ elif platform.system() == "Darwin":
             "/usr/local/Cellar/glib/2.74.0/lib/glib-2.0/include",
         ]
     )
-
 else:
     raise RuntimeError(f"Unsupported platform: {platform.system()}")
 
@@ -99,13 +97,6 @@ extensions = [
             ("AUTOTRACE_WEB", '"https://github.com/autotrace/autotrace"'),
             ("HAVE_MAGICK_READERS", 1),
             ("GLIB_STATIC_COMPILATION", 1),
-        ],
-        extra_compile_args=[
-            "-Wno-sign-compare",
-            "-Wno-c++11-compat-deprecated-writable-strings",
-            "-Wno-c++11-extensions",
-            "-Wno-tautological-constant-compare",
-            "-Wno-unused-variable",
         ],
     ),
 ]
