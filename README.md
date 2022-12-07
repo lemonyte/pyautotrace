@@ -28,18 +28,16 @@ If you wish to build the package from source,
 clone the repository and follow the instructions for your platform below.
 The Python build requirements are listed in [`requirements-dev.txt`](requirements-dev.txt).
 
-### Linux
+### Linux and MacOS
 ```shell
-sh ./scripts/build_linux.sh
+sh ./scripts/build_unix.sh
 ```
 
 A virtual environment will be created using your default Python installation.
 Compilation requires GLib to be installed on your system, which most Linux distributions include by default.
+On MacOS you will need to install GLib with `brew install glib`.
 The script will clone the AutoTrace repository,
 which provides the required header files for AutoTrace.
-
-### MacOS
-Building on MacOS has not yet been tried or tested.
 
 ### Windows
 ```shell
@@ -53,7 +51,6 @@ The script will clone the AutoTrace repository,
 which provides the required header files for both AutoTrace and GLib.
 
 ## TODO
-- MacOS build script
 - Workflow to build and upload to PyPI
 - Documentation
 - Git submodules?
