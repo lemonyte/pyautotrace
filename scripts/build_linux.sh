@@ -30,10 +30,10 @@ fi
 echo "Installing build dependencies..."
 pip install -r requirements-dev.txt
 
-# If not already present, download the AutoTrace repository.
+# If not already present, clone the AutoTrace repository.
 if ! [ -d "third-party" ]
 then
-    echo "Downloading AutoTrace repository..."
+    echo "Cloning AutoTrace repository..."
     mkdir third-party
     cd third-party
     git clone https://github.com/autotrace/autotrace.git

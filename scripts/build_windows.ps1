@@ -37,10 +37,10 @@ try
     Write-Host "Installing build dependencies..."
     pip install -r requirements-dev.txt
 
-    # If not already present, download the AutoTrace repository.
+    # If not already present, clone the AutoTrace repository.
     if (-not (Test-Path "third-party"))
     {
-        Write-Host "Downloading AutoTrace repository..."
+        Write-Host "Cloning AutoTrace repository..."
         New-Item "third-party" -ItemType Directory | Out-Null
         Set-Location "third-party"
         git clone https://github.com/autotrace/autotrace.git
