@@ -1,9 +1,11 @@
+import os
 import platform
+from pathlib import Path
 from setuptools import Extension, setup
 
 from Cython.Build import cythonize
 
-autotrace_src_dir = "third-party/autotrace/src/"
+autotrace_src_dir = os.environ.get("PYAUTOTRACE_SRC_DIR", "third-party/autotrace/src")
 
 autotrace_sources = [
     "fit.c",
@@ -49,8 +51,14 @@ autotrace_sources = [
     # "input-gf.c",
 ]
 
-autotrace_sources = [autotrace_src_dir + source for source in autotrace_sources]
+autotrace_sources = [str(Path(autotrace_src_dir) / source) for source in autotrace_sources]
+
 include_dirs = [autotrace_src_dir]
+if os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES"):
+    # Sometimes needed for Python.h
+    include_dirs += os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES").split(":")
+
+
 if platform.system() == "Windows":
     include_dirs.extend(
         [
@@ -66,8 +74,14 @@ elif platform.system() == "Linux":
         ]
     )
 elif platform.system() == "Darwin":
-    # TODO: MacOS support
-    raise NotImplementedError("MacOS is not supported yet.")
+    # As installed via "brew install glib"
+    include_dirs.extend(
+        [
+            "/usr/local/Cellar/glib/2.74.0/lib/glib-2.0/include",
+            "/usr/local/Cellar/glib/2.74.0/include/glib-2.0",
+        ]
+    )
+
 else:
     raise RuntimeError(f"Unsupported platform: {platform.system()}")
 
@@ -86,10 +100,17 @@ extensions = [
             ("HAVE_MAGICK_READERS", 1),
             ("GLIB_STATIC_COMPILATION", 1),
         ],
+        extra_compile_args=[
+            "-Wno-sign-compare",
+            "-Wno-c++11-compat-deprecated-writable-strings",
+            "-Wno-c++11-extensions",
+            "-Wno-tautological-constant-compare",
+            "-Wno-unused-variable",
+        ]
     ),
 ]
 
-with open("readme.md", "r") as file:
+with open("README.md", "r") as file:
     long_description = file.read()
 
 setup(
