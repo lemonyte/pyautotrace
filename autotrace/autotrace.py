@@ -54,6 +54,9 @@ class Spline:
     degree: PolynomialDegree
     linearity: float
 
+    def eval_at_points(self, pts):
+        return _evaluate_spline_at_points(self, pts)
+
 
 @dataclass
 class Path:
@@ -97,4 +100,5 @@ class Bitmap:
 from ._autotrace import (  # noqa: E402
     save as _save,
     trace as _trace,
+    evaluate_spline_at_points as _evaluate_spline_at_points,
 )
