@@ -77,8 +77,8 @@ elif platform.system() == "Darwin":
     # As installed via "brew install glib"
     include_dirs.extend(
         [
-            "/usr/local/Cellar/glib/2.74.0/lib/glib-2.0/include",
             "/usr/local/Cellar/glib/2.74.0/include/glib-2.0",
+            "/usr/local/Cellar/glib/2.74.0/lib/glib-2.0/include",
         ]
     )
 
@@ -106,7 +106,7 @@ extensions = [
             "-Wno-c++11-extensions",
             "-Wno-tautological-constant-compare",
             "-Wno-unused-variable",
-        ]
+        ],
     ),
 ]
 
