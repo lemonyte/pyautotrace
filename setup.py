@@ -110,9 +110,9 @@ setup(
     description="Python bindings for AutoTrace.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    author="LemonPi314",
+    author="Lemonyte",
     author_email="",
-    url="https://github.com/LemonPi314/pyautotrace",
+    url="https://github.com/lemonyte/pyautotrace",
     license="MIT",
     keywords=["autotrace", "bitmap", "vector", "graphics", "tracing"],
     classifiers=[
