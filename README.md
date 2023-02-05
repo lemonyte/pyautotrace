@@ -1,10 +1,13 @@
 # PyAutoTrace
+
 Python bindings for [AutoTrace](https://github.com/autotrace/autotrace).
 
 ## Requirements
+
 - [Python 3.7](https://www.python.org/downloads/) or higher
 
 ## Usage
+
 ```python
 import numpy as np
 from autotrace import Bitmap
@@ -24,11 +27,13 @@ vector.save('image.svg')
 ```
 
 ## Building
+
 If you wish to build the package from source,
 clone the repository and follow the instructions for your platform below.
 The Python build requirements are listed in [`requirements-dev.txt`](requirements-dev.txt).
 
 ### Linux and MacOS
+
 ```shell
 sh ./scripts/build_unix.sh
 ```
@@ -40,6 +45,7 @@ The script will clone the AutoTrace repository,
 which provides the required header files for AutoTrace.
 
 ### Windows
+
 ```shell
 .\scripts\build_windows.ps1
 ```
@@ -51,9 +57,11 @@ The script will clone the AutoTrace repository,
 which provides the required header files for both AutoTrace and GLib.
 
 ## TODO
+
 - Workflow to build and upload to PyPI
 - Documentation
 - Git submodules?
 
 ## License
+
 [MIT License](license.txt)
