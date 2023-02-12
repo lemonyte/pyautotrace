@@ -32,6 +32,7 @@ try
 
     # Activate the venv.
     . ".venv\Scripts\Activate.ps1"
+    python --version
 
     # Install build dependencies.
     Write-Host "Installing build dependencies..."

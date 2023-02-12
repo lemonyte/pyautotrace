@@ -25,6 +25,7 @@ fi
 
 # Activate the venv.
 . .venv/bin/activate
+python --version
 
 # Install build dependencies.
 echo "Installing build dependencies..."
