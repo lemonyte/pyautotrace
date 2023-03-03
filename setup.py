@@ -1,54 +1,47 @@
 import os
 import platform
 from pathlib import Path
-from setuptools import Extension, setup
 
 from Cython.Build import cythonize
+from setuptools import Extension, setup
 
 autotrace_src_dir = os.environ.get("PYAUTOTRACE_SRC_DIR", "third-party/autotrace/src")
 
 autotrace_sources = [
-    "fit.c",
-    "bitmap.c",
-    "spline.c",
-    "curve.c",
-    "epsilon-equal.c",
-    "vector.c",
-    "color.c",
-    # "datetime.c",
     "autotrace.c",
-    # "output.c",
-    # "input.c",
-    "pxl-outline.c",
-    "median.c",
-    "thin-image.c",
-    "logreport.c",
-    "filename.c",
+    "bitmap.c",
+    "color.c",
+    "curve.c",
     "despeckle.c",
+    "epsilon-equal.c",
     "exception.c",
+    "filename.c",
+    "fit.c",
     "image-proc.c",
+    "logreport.c",
+    "median.c",
     "module.c",
+    "output-cgm.c",
+    "output-dr2d.c",
+    "output-dxf.c",
+    "output-emf.c",
+    "output-epd.c",
     "output-eps.c",
     "output-er.c",
     "output-fig.c",
+    "output-ild.c",
+    "output-mif.c",
+    "output-p2e.c",
+    "output-pdf.c",
+    "output-plt.c",
+    "output-pov.c",
     "output-sk.c",
     "output-svg.c",
     "output-ugs.c",
-    "output-p2e.c",
-    "output-emf.c",
-    "output-dxf.c",
-    "output-epd.c",
-    "output-pdf.c",
-    "output-mif.c",
-    "output-cgm.c",
-    "output-dr2d.c",
-    "output-pov.c",
-    "output-plt.c",
-    "output-ild.c",
-    # "input-bmp.c",
-    # "input-pnm.c",
-    # "input-tga.c",
-    # "input-gf.c",
+    "pxl-outline.c",
+    "spline.c",
+    "thin-image.c",
+    "vector.c",
 ]
 
 autotrace_sources = [str(Path(autotrace_src_dir) / source) for source in autotrace_sources]
