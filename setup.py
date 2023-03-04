@@ -121,6 +121,6 @@ setup(
             "py.typed",
         ],
     },
-    python_requires=">=3.7.9",
+    python_requires=">=3.7",
     ext_modules=cythonize(extensions, compiler_directives={"language_level": 3}),
 )
