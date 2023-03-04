@@ -49,7 +49,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [macos-latest]
     env:
       CIBW_SKIP: pp*
       CIBW_ARCHS: auto64
@@ -68,6 +69,13 @@ jobs:
       - name: Extract GLib headers
         if: matrix.os == 'windows-latest'
         run: Expand-Archive "./third-party/autotrace/distribute/win/3rdparty/glib-dev_2.34.3-1_win64.zip" -DestinationPath "./third-party/autotrace/distribute/win/3rdparty/glib"
+
+      - name: Debug
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew list
+          brew search
+          brew search /.*glib.*/
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.12.0
