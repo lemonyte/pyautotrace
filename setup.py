@@ -5,7 +5,7 @@ from pathlib import Path
 from Cython.Build import cythonize
 from setuptools import Extension, setup
 
-autotrace_src_dir = os.environ.get("PYAUTOTRACE_SRC_DIR", "third-party/autotrace/src")
+autotrace_src_dir = os.environ.get("PYAUTOTRACE_SRC_DIR", "./third-party/autotrace/src")
 
 autotrace_sources = [
     "autotrace.c",
@@ -54,8 +54,8 @@ if os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES"):
 if platform.system() == "Windows":
     include_dirs.extend(
         [
-            "third-party/autotrace/distribute/win/3rdparty/glib/include/glib-2.0/",
-            "third-party/autotrace/distribute/win/3rdparty/glib/lib/glib-2.0/include/",
+            "./third-party/autotrace/distribute/win/3rdparty/glib/include/glib-2.0/",
+            "./third-party/autotrace/distribute/win/3rdparty/glib/lib/glib-2.0/include/",
         ]
     )
 elif platform.system() == "Linux":
@@ -80,8 +80,8 @@ extensions = [
     Extension(
         "autotrace._autotrace",
         sources=[
-            "autotrace/_autotrace.pyx",
-            "autotrace/overrides.cpp",
+            "./autotrace/_autotrace.pyx",
+            "./autotrace/overrides.cpp",
             *autotrace_sources,
         ],
         include_dirs=include_dirs,
