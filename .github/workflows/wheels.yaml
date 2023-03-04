@@ -70,7 +70,7 @@ jobs:
         run: Expand-Archive "./third-party/autotrace/distribute/win/3rdparty/glib-dev_2.34.3-1_win64.zip" -DestinationPath "./third-party/autotrace/distribute/win/3rdparty/glib"
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2
+        uses: pypa/cibuildwheel@v2.12.0
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
