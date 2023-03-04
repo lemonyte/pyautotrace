@@ -18,6 +18,7 @@ env/
 *.pyd
 autotrace/*.c
 third-party/
+wheelhouse/
 tests/
 
 # Byte-compiled / optimized / DLL files
