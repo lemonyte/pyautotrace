@@ -7,8 +7,7 @@ from zipfile import ZipFile
 from Cython.Build import cythonize
 from setuptools import Extension, setup
 
-autotrace_src_dir = os.environ.get("PYAUTOTRACE_SRC_DIR", "./third-party/autotrace/src")
-
+autotrace_src_dir = os.environ.get("AUTOTRACE_SRC_DIR", "./third-party/autotrace/src")
 autotrace_sources = [
     "autotrace.c",
     "bitmap.c",
@@ -45,13 +44,12 @@ autotrace_sources = [
     "thin-image.c",
     "vector.c",
 ]
-
 autotrace_sources = [str(Path(autotrace_src_dir) / source) for source in autotrace_sources]
-
 include_dirs = [autotrace_src_dir]
+
 if os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES"):
-    # Sometimes needed for Python.h
-    include_dirs.extend(os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES").split(":"))
+    # Sometimes needed for Python.h.
+    include_dirs.extend(os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES", "").split(":"))
 
 if platform.system() == "Windows":
     with ZipFile("./third-party/autotrace/distribute/win/3rdparty/glib-dev_2.34.3-1_win64.zip", "r") as zip_file:
