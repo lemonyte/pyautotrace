@@ -52,11 +52,11 @@ jobs:
           ref: fcd9043f6227979ea2b21ac5d9f796325bdb1343
 
       - name: Extract GLib headers
-        if: matrix.os == "windows-latest"
+        if: matrix.os == windows-latest
         run: Expand-Archive "./third-party/autotrace/distribute/win/3rdparty/glib-dev_2.34.3-1_win64.zip" -DestinationPath "./third-party/autotrace/distribute/win/3rdparty/glib"
 
       - name: Install GLib
-        if: matrix.os == "macos-latest"
+        if: matrix.os == macos-latest
         run: brew install glib
 
       - name: Set up Python
@@ -86,7 +86,7 @@ jobs:
   # upload_pypi:
   #   needs: [build_wheels, build_sdist]
   #   runs-on: ubuntu-latest
-  #   if: github.event_name == "release" && github.event.action == "published"
+  #   if: github.event_name == release && github.event.action == published
   #   steps:
   #     - name: Download artifacts
   #       uses: actions/download-artifact@v3
