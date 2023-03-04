@@ -47,8 +47,6 @@ try
         git clone https://github.com/autotrace/autotrace.git
         Set-Location "autotrace"
         git reset --hard fcd9043f6227979ea2b21ac5d9f796325bdb1343
-        Set-Location "distribute\win\3rdparty"
-        Expand-Archive "glib-dev_2.34.3-1_win64.zip" -DestinationPath "glib"
         Set-Location $BaseDirectory
     }
 
