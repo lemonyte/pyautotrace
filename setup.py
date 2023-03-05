@@ -2,7 +2,6 @@ import os
 import platform
 import subprocess
 from pathlib import Path
-from zipfile import ZipFile
 
 from Cython.Build import cythonize
 from setuptools import Extension, setup
@@ -52,8 +51,6 @@ if os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES"):
     include_dirs.extend(os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES", "").split(":"))
 
 if platform.system() == "Windows":
-    with ZipFile("./third-party/autotrace/distribute/win/3rdparty/glib-dev_2.34.3-1_win64.zip", "r") as zip_file:
-        zip_file.extractall("./third-party/autotrace/distribute/win/3rdparty/glib")
     include_dirs.extend(
         [
             "./third-party/autotrace/distribute/win/3rdparty/glib/include/glib-2.0/",
