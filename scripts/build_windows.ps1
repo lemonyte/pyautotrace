@@ -36,7 +36,7 @@ try
 
     # Install build dependencies.
     Write-Host "Installing build dependencies..."
-    pip install -r requirements-dev.txt
+    python -m pip install build
 
     # If not already present, clone the AutoTrace repository.
     if (-not (Test-Path "third-party"))
@@ -47,21 +47,14 @@ try
         git clone https://github.com/autotrace/autotrace.git
         Set-Location "autotrace"
         git reset --hard fcd9043f6227979ea2b21ac5d9f796325bdb1343
+        Set-Location "distribute\win\3rdparty"
+        Expand-Archive "glib-dev_2.34.3-1_win64.zip" -DestinationPath "glib"
         Set-Location $BaseDirectory
-    }
-
-    # Clean build files.
-    Write-Host "Cleaning build files..."
-    python setup.py clean --all
-    if (Test-Path "build")
-    {
-        Remove-Item "build" -Recurse
     }
 
     # Build distributions.
     Write-Host "Building distributions..."
-    python setup.py sdist
-    python setup.py bdist_wheel
+    python -m build
 
     Write-Host "Finished."
 }
