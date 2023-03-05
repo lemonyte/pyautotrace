@@ -6,7 +6,7 @@ from pathlib import Path
 from Cython.Build import cythonize
 from setuptools import Extension, setup
 
-autotrace_src_dir = os.environ.get("AUTOTRACE_SRC_DIR", "./third-party/autotrace/src")
+AUTOTRACE_SRC_DIR = "./third-party/autotrace/src"
 autotrace_sources = [
     "autotrace.c",
     "bitmap.c",
@@ -43,8 +43,8 @@ autotrace_sources = [
     "thin-image.c",
     "vector.c",
 ]
-autotrace_sources = [str(Path(autotrace_src_dir) / source) for source in autotrace_sources]
-include_dirs = [autotrace_src_dir]
+autotrace_sources = [str(Path(AUTOTRACE_SRC_DIR) / source) for source in autotrace_sources]
+include_dirs = [AUTOTRACE_SRC_DIR]
 
 if os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES"):
     # Sometimes needed for Python.h.
@@ -99,7 +99,13 @@ setup(
     author_email="",
     url="https://github.com/lemonyte/pyautotrace",
     license="MIT",
-    keywords=["autotrace", "bitmap", "vector", "graphics", "tracing"],
+    keywords=[
+        "autotrace",
+        "bitmap",
+        "vector",
+        "graphics",
+        "tracing",
+    ],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
@@ -112,7 +118,9 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Typing :: Typed",
     ],
-    packages=["autotrace"],
+    packages=[
+        "autotrace",
+    ],
     package_data={
         "autotrace": [
             "py.typed",
