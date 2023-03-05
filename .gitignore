@@ -17,7 +17,7 @@ env/
 *.dll
 *.pyd
 autotrace/*.c
-third-party/
+third-party/glib/
 wheelhouse/
 tests/
 

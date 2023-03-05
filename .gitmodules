@@ -1,0 +1,3 @@
+[submodule "third-party/autotrace"]
+	path = third-party/autotrace
+	url = https://github.com/autotrace/autotrace
