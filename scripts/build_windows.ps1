@@ -9,7 +9,6 @@ try
     {
         if (Test-Path "setup.py")
         {
-            $BaseDirectory = Get-Location
             break
         }
         elseif ((Get-Location).Path -eq "$(Split-Path $PSScriptRoot -Qualifier)\")
@@ -36,34 +35,25 @@ try
 
     # Install build dependencies.
     Write-Host "Installing build dependencies..."
-    pip install -r requirements-dev.txt
+    python -m pip install build
 
-    # If not already present, clone the AutoTrace repository.
-    if (-not (Test-Path "third-party"))
+    # Update autotrace submodule.
+    if (-not (Test-Path "third-party\autotrace\src"))
     {
-        Write-Host "Cloning AutoTrace repository..."
-        New-Item "third-party" -ItemType Directory | Out-Null
-        Set-Location "third-party"
-        git clone https://github.com/autotrace/autotrace.git
-        Set-Location "autotrace"
-        git reset --hard fcd9043f6227979ea2b21ac5d9f796325bdb1343
-        Set-Location "distribute\win\3rdparty"
-        Expand-Archive "glib-dev_2.34.3-1_win64.zip" -DestinationPath "glib"
-        Set-Location $BaseDirectory
+        Write-Host "Updating autotrace submodule..."
+        git submodule update --init
     }
 
-    # Clean build files.
-    Write-Host "Cleaning build files..."
-    python setup.py clean --all
-    if (Test-Path "build")
+    # Extract GLib headers.
+    if (-not (Test-Path "third-party\glib"))
     {
-        Remove-Item "build" -Recurse
+        Write-Host "Extracting GLib headers..."
+        Expand-Archive "third-party\autotrace\distribute\win\3rdparty\glib-dev_2.34.3-1_win64.zip" -DestinationPath "third-party\glib"
     }
 
     # Build distributions.
     Write-Host "Building distributions..."
-    python setup.py sdist
-    python setup.py bdist_wheel
+    python -m build
 
     Write-Host "Finished."
 }

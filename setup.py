@@ -1,12 +1,12 @@
 import os
 import platform
+import subprocess
 from pathlib import Path
 
 from Cython.Build import cythonize
 from setuptools import Extension, setup
 
-autotrace_src_dir = os.environ.get("PYAUTOTRACE_SRC_DIR", "./third-party/autotrace/src")
-
+AUTOTRACE_SRC_DIR = "./third-party/autotrace/src"
 autotrace_sources = [
     "autotrace.c",
     "bitmap.c",
@@ -43,36 +43,28 @@ autotrace_sources = [
     "thin-image.c",
     "vector.c",
 ]
+autotrace_sources = [str(Path(AUTOTRACE_SRC_DIR) / source) for source in autotrace_sources]
+include_dirs = [AUTOTRACE_SRC_DIR]
 
-autotrace_sources = [str(Path(autotrace_src_dir) / source) for source in autotrace_sources]
-
-include_dirs = [autotrace_src_dir]
 if os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES"):
-    # Sometimes needed for Python.h
-    include_dirs.extend(os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES").split(":"))
+    # Sometimes needed for Python.h.
+    include_dirs.extend(os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES", "").split(":"))
 
 if platform.system() == "Windows":
     include_dirs.extend(
         [
-            "./third-party/autotrace/distribute/win/3rdparty/glib/include/glib-2.0/",
-            "./third-party/autotrace/distribute/win/3rdparty/glib/lib/glib-2.0/include/",
+            "./third-party/glib/include/glib-2.0/",
+            "./third-party/glib/lib/glib-2.0/include/",
         ]
     )
-elif platform.system() == "Linux":
-    include_dirs.extend(
-        [
-            "/usr/include/glib-2.0/",
-            "/usr/lib/x86_64-linux-gnu/glib-2.0/include/",
-        ]
-    )
-elif platform.system() == "Darwin":
-    # As installed via "brew install glib"
-    include_dirs.extend(
-        [
-            "/usr/local/Cellar/glib/2.74.0/include/glib-2.0",
-            "/usr/local/Cellar/glib/2.74.0/lib/glib-2.0/include",
-        ]
-    )
+elif platform.system() in ("Linux", "Darwin"):
+    cflags = subprocess.run(
+        ["pkg-config", "--cflags", "glib-2.0"],
+        capture_output=True,
+        check=True,
+        text=True,
+    ).stdout
+    include_dirs.extend(cflags.replace("-I", "").split())
 else:
     raise RuntimeError(f"Unsupported platform: {platform.system()}")
 
@@ -107,7 +99,13 @@ setup(
     author_email="",
     url="https://github.com/lemonyte/pyautotrace",
     license="MIT",
-    keywords=["autotrace", "bitmap", "vector", "graphics", "tracing"],
+    keywords=[
+        "autotrace",
+        "bitmap",
+        "vector",
+        "graphics",
+        "tracing",
+    ],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
@@ -120,12 +118,14 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Typing :: Typed",
     ],
-    packages=["autotrace"],
+    packages=[
+        "autotrace",
+    ],
     package_data={
         "autotrace": [
             "py.typed",
         ],
     },
-    python_requires=">=3.7.9",
+    python_requires=">=3.8",
     ext_modules=cythonize(extensions, compiler_directives={"language_level": 3}),
 )

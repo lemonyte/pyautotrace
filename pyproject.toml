@@ -1,0 +1,11 @@
+[build-system]
+requires = [
+    # Earlier versions of setuptools have a bug relating to quotes in command line arguments.
+    "setuptools>=60",
+    "wheel~=0.38.4",
+    "Cython~=0.29.33",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.cibuildwheel]
+build-frontend = "build"

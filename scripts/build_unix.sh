@@ -5,7 +5,6 @@ while true
 do
     if [ -e "setup.py" ]
     then
-        base_directory=$PWD
         break
     elif [ $PWD = "/" ]
     then
@@ -29,31 +28,24 @@ python --version
 
 # Install build dependencies.
 echo "Installing build dependencies..."
-pip install -r requirements-dev.txt
+python -m pip install build
 
-# If not already present, clone the AutoTrace repository.
-if ! [ -d "third-party" ]
+# Update autotrace submodule.
+if ! [ -d "third-party/autotrace/src" ]
 then
-    echo "Cloning AutoTrace repository..."
-    mkdir third-party
-    cd third-party
-    git clone https://github.com/autotrace/autotrace.git
-    cd autotrace
-    git reset --hard fcd9043f6227979ea2b21ac5d9f796325bdb1343
-    cd $base_directory
+    echo "Updating autotrace submodule..."
+    git submodule update --init
 fi
 
-# Clean build files.
-echo "Cleaning build files..."
-python setup.py clean --all
-if [ -d "build" ]
+# Extract GLib headers.
+if ! [ -d "third-party/glib" ]
 then
-    rm -rf "build"
+    echo "Extracting GLib headers..."
+    unzip third-party/autotrace/distribute/win/3rdparty/glib-dev_2.34.3-1_win64.zip -d third-party/glib
 fi
 
 # Build distributions.
 echo "Building distributions..."
-python setup.py sdist
-python setup.py bdist_wheel
+python -m build
 
 echo "Finished."

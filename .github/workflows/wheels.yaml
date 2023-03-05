@@ -2,12 +2,18 @@ name: Build Wheels
 
 on:
   push:
-  # pull_request:
+    paths:
+      - ".github/workflows/**"
+      - "autotrace/**"
+      - "**.py"
+      - "**.toml"
+      - "**.in"
+  pull_request:
   workflow_dispatch:
 
-# concurrency:
-#   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-#   cancel-in-progress: true
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   build_sdist:
@@ -16,96 +22,77 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Clone AutoTrace
-        uses: actions/checkout@v3
         with:
-          repository: autotrace/autotrace
-          path: ./third-party/autotrace
-          ref: fcd9043f6227979ea2b21ac5d9f796325bdb1343
+          submodules: true
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.x
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
+      - name: Extract GLib headers
+        shell: bash
+        run: >
+          unzip ./third-party/autotrace/distribute/win/3rdparty/glib-dev_2.34.3-1_win64.zip
+          -d ./third-party/glib
 
       - name: Build sdist
-        run: python setup.py sdist
+        run: pipx run build --sdist
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
+          name: sdist
           path: ./dist/*.tar.gz
 
   build_wheels:
-    name: Build wheel for Python ${{ matrix.python }} on ${{ matrix.os }}
+    name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Clone AutoTrace
-        uses: actions/checkout@v3
         with:
-          repository: autotrace/autotrace
-          path: ./third-party/autotrace
-          ref: fcd9043f6227979ea2b21ac5d9f796325bdb1343
+          submodules: true
 
       - name: Extract GLib headers
-        if: matrix.os == 'windows-latest'
-        run: Expand-Archive "./third-party/autotrace/distribute/win/3rdparty/glib-dev_2.34.3-1_win64.zip" -DestinationPath "./third-party/autotrace/distribute/win/3rdparty/glib"
+        shell: bash
+        run: >
+          unzip ./third-party/autotrace/distribute/win/3rdparty/glib-dev_2.34.3-1_win64.zip
+          -d ./third-party/glib
 
-      - name: Install GLib
-        if: matrix.os == 'macos-latest'
-        run: brew install glib
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python }}
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
-
-      - name: Build package
-        run: python setup.py bdist_wheel
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.12.0
+        env:
+          CIBW_SKIP: pp*
+          CIBW_ARCHS: auto64
+          CIBW_ARCHS_MACOS: universal2
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: wheels
-          path: ./dist/*.whl
+          path: ./wheelhouse/*.whl
 
   # publish_release:
-  #   needs: [build_wheels, build_sdist]
+  #   needs:
+  #     - build_sdist
+  #     - build_wheels
   #   runs-on: ubuntu-latest
-  # TODO
-
-  # upload_pypi:
-  #   needs: [build_wheels, build_sdist]
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'release' && github.event.action == 'published'
+  #   if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && github.actor == 'lemonyte'
   #   steps:
   #     - name: Download artifacts
   #       uses: actions/download-artifact@v3
   #       with:
-  #         name: wheels
   #         path: ./dist
 
-  #     - name: Publish to PyPI
-  #       uses: pypa/gh-action-pypi-publish@v1
+  #     - name: Create release
+  #       uses: softprops/action-gh-release@v1
   #       with:
-  #         skip_existing: true
-  #         password: ${{ secrets.PYPI_PASSWORD }}
+  #         files: ./dist/*
+
+  #     - name: Publish to PyPI
+  #       uses: pypa/gh-action-pypi-publish@release/v1
+  #       with:
+  #         password: ${{ secrets.PYPI_API_TOKEN }}
