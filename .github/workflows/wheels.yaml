@@ -34,7 +34,7 @@ jobs:
         shell: bash
         run: >
           unzip ./third-party/autotrace/distribute/win/3rdparty/glib-dev_2.34.3-1_win64.zip
-          -d ./third-party/autotrace/distribute/win/3rdparty/glib
+          -d ./third-party/glib
 
       - name: Build sdist
         run: pipx run build --sdist
@@ -70,7 +70,7 @@ jobs:
         shell: bash
         run: >
           unzip ./third-party/autotrace/distribute/win/3rdparty/glib-dev_2.34.3-1_win64.zip
-          -d ./third-party/autotrace/distribute/win/3rdparty/glib
+          -d ./third-party/glib
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.12.0

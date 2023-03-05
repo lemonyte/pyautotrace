@@ -53,8 +53,8 @@ if os.environ.get("PYAUTOTRACE_EXTRA_INCLUDES"):
 if platform.system() == "Windows":
     include_dirs.extend(
         [
-            "./third-party/autotrace/distribute/win/3rdparty/glib/include/glib-2.0/",
-            "./third-party/autotrace/distribute/win/3rdparty/glib/lib/glib-2.0/include/",
+            "./third-party/glib/include/glib-2.0/",
+            "./third-party/glib/lib/glib-2.0/include/",
         ]
     )
 elif platform.system() in ("Linux", "Darwin"):
