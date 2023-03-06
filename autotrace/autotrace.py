@@ -1,9 +1,13 @@
+"""TODO: module docstring"""
+
 from dataclasses import dataclass
 from enum import IntEnum
 from typing import Optional, Sequence, Tuple
 
 
 class PolynomialDegree(IntEnum):
+    """TODO: class docstring"""
+
     AT_LINEARTYPE = 1
     AT_QUADRATICTYPE = 2
     AT_CUBICTYPE = 3
@@ -14,6 +18,14 @@ class PolynomialDegree(IntEnum):
 
 @dataclass
 class Point:
+    """Represents a point.
+
+    Attributes:
+        x: The x coordinate.
+        y: The y coordinate.
+        z: The z coordinate.
+    """
+
     x: float
     y: float
     z: float
@@ -21,6 +33,14 @@ class Point:
 
 @dataclass
 class Color:
+    """Represents a color.
+
+    Attributes:
+        r: The red component.
+        g: The green component.
+        b: The blue component.
+    """
+
     r: int
     g: int
     b: int
@@ -28,6 +48,13 @@ class Color:
 
 @dataclass
 class TraceOptions:
+    """Options for tracing an image.
+
+    Attributes:
+        background_color: The background color.
+        TODO: rest of the options
+    """
+
     background_color: Optional[Color] = None
     charcode: int = 0
     color_count: int = 0
@@ -50,6 +77,14 @@ class TraceOptions:
 
 @dataclass
 class Spline:
+    """Represents a sequence of points.
+
+    Attributes:
+        points: A sequence points.
+        degree: The degree of the spline.
+        linearity: TODO: ???
+    """
+
     points: Tuple[Point, Point, Point, Point]
     degree: PolynomialDegree
     linearity: float
@@ -57,6 +92,15 @@ class Spline:
 
 @dataclass
 class Path:
+    """Represents a sequence of splines.
+
+    Attributes:
+        splines: A sequence of splines.
+        color: The color of the path.
+        clockwise: TODO: ???
+        open: TODO: ???
+    """
+
     splines: Sequence[Spline]
     color: Color
     clockwise: bool
@@ -68,6 +112,18 @@ class Path:
 
 @dataclass
 class Vector:
+    """Represents a vector image.
+
+    Attributes:
+        paths: A sequence of paths.
+        width: The width of the image.
+        height: The height of the image.
+        background_color: The background color.
+        centerline: TODO: ???
+        preserve_width: TODO: ???
+        width_weight_factor: TODO: ???
+    """
+
     paths: Sequence[Path]
     width: int
     height: int
@@ -80,17 +136,40 @@ class Vector:
         return len(self.paths)
 
     def save(self, filename: str, format: Optional[str] = None):
+        """Save the image to a file.
+
+        Args:
+            filename: The name of the file to save to.
+            format: The format to save the image as. If not specified, the
+                format will be inferred from the filename.
+        """
+
         _save(self, filename, format)
 
 
 @dataclass
 class Bitmap:
+    """Represents a bitmap image.
+
+    Attributes:
+        data: The bitmap data.
+    """
+
     data: Sequence[Sequence[Sequence[int]]]
 
     def __len__(self):
         return len(self.data)
 
     def trace(self, options: Optional[TraceOptions] = None) -> Vector:
+        """Trace a vector from the bitmap.
+
+        Args:
+            options: Options to use when tracing the image.
+
+        Returns:
+            Vector: The traced vector image.
+        """
+
         return _trace(self.data, options)
 
 
