@@ -55,6 +55,7 @@ class TraceOptions:
         TODO: rest of the options
     """
 
+    # pylint: disable=too-many-instance-attributes
     background_color: Optional[Color] = None
     charcode: int = 0
     color_count: int = 0
@@ -187,7 +188,7 @@ def trace(image: Sequence[Sequence[Sequence[int]]], options: Optional[TraceOptio
     return Bitmap(image).trace(options)
 
 
-from ._autotrace import (  # noqa: E402
-    save as _save,
-    trace as _trace,
-)
+# pyright: reportMissingImports=false
+# pylint: disable=import-error, wrong-import-position
+from ._autotrace import save as _save  # noqa: E402
+from ._autotrace import trace as _trace  # noqa: E402
