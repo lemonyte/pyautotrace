@@ -173,6 +173,20 @@ class Bitmap:
         return _trace(self.data, options)
 
 
+def trace(image: Sequence[Sequence[Sequence[int]]], options: Optional[TraceOptions] = None) -> Vector:
+    """Trace a vector from a bitmap. Convenience function for `Bitmap.trace()`.
+
+    Args:
+        image: The bitmap image.
+        options: Options to use when tracing the image.
+
+    Returns:
+        Vector: The traced vector image.
+    """
+
+    return Bitmap(image).trace(options)
+
+
 from ._autotrace import (  # noqa: E402
     save as _save,
     trace as _trace,

@@ -9,4 +9,5 @@ from .autotrace import (  # noqa: F401
     Spline,
     TraceOptions,
     Vector,
+    trace,
 )
