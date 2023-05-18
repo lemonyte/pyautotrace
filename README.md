@@ -9,7 +9,7 @@ Python bindings for [AutoTrace](https://github.com/autotrace/autotrace).
 ## Installation
 
 ```shell
-python -m pip install autotrace
+python -m pip install pyautotrace
 ```
 
 ## Usage
