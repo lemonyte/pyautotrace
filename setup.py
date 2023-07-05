@@ -86,45 +86,6 @@ extensions = [
     ),
 ]
 
-with open("README.md", "r") as file:
-    long_description = file.read()
-
 setup(
-    name="pyautotrace",
-    version="0.0.2",
-    description="Python bindings for AutoTrace.",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
-    author="Lemonyte",
-    url="https://github.com/lemonyte/pyautotrace",
-    license="MIT",
-    keywords=[
-        "autotrace",
-        "bitmap",
-        "vector",
-        "graphics",
-        "tracing",
-    ],
-    classifiers=[
-        "Development Status :: 3 - Alpha",
-        "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Cython",
-        "Topic :: Multimedia :: Graphics :: Graphics Conversion",
-        "Topic :: Scientific/Engineering :: Image Processing",
-        "Topic :: Software Development :: Libraries :: Python Modules",
-        "Typing :: Typed",
-    ],
-    packages=[
-        "autotrace",
-    ],
-    package_data={
-        "autotrace": [
-            "py.typed",
-        ],
-    },
-    python_requires=">=3.8",
     ext_modules=cythonize(extensions, compiler_directives={"language_level": 3}),
 )

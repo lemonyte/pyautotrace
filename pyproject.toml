@@ -1,11 +1,49 @@
 [build-system]
 requires = [
-    # Earlier versions of setuptools have a bug relating to quotes in command line arguments.
-    "setuptools>=60",
+    "setuptools>=61",
     "wheel~=0.38.4",
     "Cython~=0.29.33",
 ]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyautotrace"
+dynamic = ["version"]
+description = "Python bindings for AutoTrace."
+readme = "README.md"
+license = {file = "LICENSE.txt"}
+requires-python = ">=3.8"
+authors = [
+    {name = "Lemonyte"},
+]
+keywords = [
+    "autotrace",
+    "bitmap",
+    "graphics",
+    "tracing",
+    "vector",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Cython",
+    "Programming Language :: Python :: 3",
+    "Topic :: Multimedia :: Graphics :: Graphics Conversion",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Repository = "https://github.com/lemonyte/pyautotrace"
+
+[tool.setuptools]
+packages = ["autotrace"]
+package-data = {autotrace = ["py.typed"]}
+
+[tool.setuptools.dynamic]
+version = {attr = "autotrace.__version__"}
 
 [tool.cibuildwheel]
 build-frontend = "build"
