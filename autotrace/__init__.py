@@ -22,5 +22,6 @@ __all__ = [
     "TraceOptions",
     "Vector",
     "trace",
+    "__version__",
 ]
 __version__ = "0.0.2"
