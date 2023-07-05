@@ -1,6 +1,6 @@
 """Python bindings for AutoTrace."""
 
-from .autotrace import (  # noqa: F401
+from .autotrace import (
     Bitmap,
     Color,
     Path,
@@ -11,3 +11,15 @@ from .autotrace import (  # noqa: F401
     Vector,
     trace,
 )
+
+__all__ = [
+    "Bitmap",
+    "Color",
+    "Path",
+    "Point",
+    "PolynomialDegree",
+    "Spline",
+    "TraceOptions",
+    "Vector",
+    "trace",
+]
