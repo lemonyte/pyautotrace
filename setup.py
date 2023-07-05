@@ -80,8 +80,8 @@ extensions = [
         define_macros=[
             ("AUTOTRACE_VERSION", '"0.40.0"'),
             ("AUTOTRACE_WEB", '"https://github.com/autotrace/autotrace"'),
-            ("HAVE_MAGICK_READERS", 1),
-            ("GLIB_STATIC_COMPILATION", 1),
+            ("HAVE_MAGICK_READERS", "1"),
+            ("GLIB_STATIC_COMPILATION", "1"),
         ],
     ),
 ]
@@ -96,7 +96,6 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Lemonyte",
-    author_email="",
     url="https://github.com/lemonyte/pyautotrace",
     license="MIT",
     keywords=[
