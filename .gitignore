@@ -16,6 +16,7 @@ env/
 !*.spec
 *.dll
 *.pyd
+*token.txt
 autotrace/*.c
 third-party/glib/
 wheelhouse/
