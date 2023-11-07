@@ -139,7 +139,7 @@ class Vector:
     def __len__(self) -> int:
         return len(self.paths)
 
-    def save(self, filename: str, format: str | None = None) -> None:
+    def save(self, filename: str, /, *, format: str | None = None) -> None:
         """Save the image to a file.
 
         Args:
@@ -151,7 +151,6 @@ class Vector:
         _save(self, filename, format)
 
 
-@dataclass
 class Bitmap:
     """Represents a bitmap image.
 
@@ -159,7 +158,8 @@ class Bitmap:
         data: The bitmap data.
     """
 
-    data: Sequence[Sequence[Sequence[int]]]
+    def __init__(self, data: Sequence[Sequence[Sequence[int]]], /) -> None:
+        self.data = data
 
     def __len__(self) -> int:
         return len(self.data)
@@ -177,18 +177,18 @@ class Bitmap:
         return _trace(self.data, options)
 
 
-def trace(image: Sequence[Sequence[Sequence[int]]], options: TraceOptions | None = None) -> Vector:
+def trace(bitmap: Sequence[Sequence[Sequence[int]]], /, options: TraceOptions | None = None) -> Vector:
     """Trace a vector from a bitmap. Convenience function for `Bitmap.trace()`.
 
     Args:
-        image: The bitmap image.
+        bitmap: The bitmap image.
         options: Options to use when tracing the image.
 
     Returns:
         Vector: The traced vector image.
     """
 
-    return Bitmap(image).trace(options)
+    return Bitmap(bitmap).trace(options)
 
 
 # pyright: reportMissingImports=false
