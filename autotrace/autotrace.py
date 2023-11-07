@@ -1,9 +1,11 @@
 # ruff: noqa: ANN101
 """TODO: module docstring"""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import Optional, Sequence, Tuple
+from typing import Sequence
 
 
 class PolynomialDegree(IntEnum):
@@ -57,7 +59,7 @@ class TraceOptions:
     """
 
     # pylint: disable=too-many-instance-attributes
-    background_color: Optional[Color] = None
+    background_color: Color | None = None
     charcode: int = 0
     color_count: int = 0
     corner_always_threshold: float = 60.0
@@ -87,7 +89,7 @@ class Spline:
         linearity: TODO: ???
     """
 
-    points: Tuple[Point, Point, Point, Point]
+    points: tuple[Point, Point, Point, Point]
     degree: PolynomialDegree
     linearity: float
 
@@ -137,7 +139,7 @@ class Vector:
     def __len__(self):
         return len(self.paths)
 
-    def save(self, filename: str, format: Optional[str] = None):
+    def save(self, filename: str, format: str | None = None):
         """Save the image to a file.
 
         Args:
@@ -162,7 +164,7 @@ class Bitmap:
     def __len__(self):
         return len(self.data)
 
-    def trace(self, options: Optional[TraceOptions] = None) -> Vector:
+    def trace(self, options: TraceOptions | None = None) -> Vector:
         """Trace a vector from the bitmap.
 
         Args:
@@ -175,7 +177,7 @@ class Bitmap:
         return _trace(self.data, options)
 
 
-def trace(image: Sequence[Sequence[Sequence[int]]], options: Optional[TraceOptions] = None) -> Vector:
+def trace(image: Sequence[Sequence[Sequence[int]]], options: TraceOptions | None = None) -> Vector:
     """Trace a vector from a bitmap. Convenience function for `Bitmap.trace()`.
 
     Args:
