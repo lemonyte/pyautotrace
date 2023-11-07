@@ -58,10 +58,12 @@ extern "C"
 
     /* gstrfuncs.c */
 
+#ifndef g_strdup
     gchar *g_strdup(const gchar *str)
     {
         return strdup(str);
     }
+#endif
 
     gchar *g_strndup(const gchar *str, gsize n)
     {
