@@ -193,7 +193,7 @@ def trace(data, options = None):
         opts = trace_options_to_at_fitting_opts(options)
     else:
         opts = at_fitting_opts_new()
- 
+
     cdef at_spline_list_array_type *at_spline_list_array = at_splines_new(bitmap, opts, NULL, NULL)
     vector_image = at_splines_to_vector_image(at_spline_list_array)
 
