@@ -1,3 +1,4 @@
+# ruff: noqa: ANN101
 """TODO: module docstring"""
 
 from dataclasses import dataclass

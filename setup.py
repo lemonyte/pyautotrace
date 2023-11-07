@@ -1,3 +1,4 @@
+# ruff: noqa: S603
 import os
 import platform
 import subprocess
@@ -55,18 +56,19 @@ if platform.system() == "Windows":
         [
             "./third-party/glib/include/glib-2.0/",
             "./third-party/glib/lib/glib-2.0/include/",
-        ]
+        ],
     )
 elif platform.system() in ("Linux", "Darwin"):
     cflags = subprocess.run(
-        ["pkg-config", "--cflags", "glib-2.0"],
+        ("pkg-config", "--cflags", "glib-2.0"),
         capture_output=True,
         check=True,
         text=True,
     ).stdout
     include_dirs.extend(cflags.replace("-I", "").split())
 else:
-    raise RuntimeError(f"Unsupported platform: {platform.system()}")
+    msg = f"Unsupported platform: {platform.system()}"
+    raise RuntimeError(msg)
 
 extensions = [
     Extension(
