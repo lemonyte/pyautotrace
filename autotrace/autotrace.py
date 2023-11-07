@@ -81,10 +81,10 @@ class TraceOptions:
 
 @dataclass
 class Spline:
-    """Represents a sequence of points.
+    """Represents a sequence four of points.
 
     Attributes:
-        points: A sequence points.
+        points: A sequence four points.
         degree: The degree of the spline.
         linearity: TODO: ???
     """
