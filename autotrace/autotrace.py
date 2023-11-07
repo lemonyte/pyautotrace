@@ -110,7 +110,7 @@ class Path:
     clockwise: bool
     open: bool
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.splines)
 
 
@@ -136,10 +136,10 @@ class Vector:
     preserve_width: bool
     width_weight_factor: float
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.paths)
 
-    def save(self, filename: str, format: str | None = None):
+    def save(self, filename: str, format: str | None = None) -> None:
         """Save the image to a file.
 
         Args:
@@ -161,7 +161,7 @@ class Bitmap:
 
     data: Sequence[Sequence[Sequence[int]]]
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.data)
 
     def trace(self, options: TraceOptions | None = None) -> Vector:
