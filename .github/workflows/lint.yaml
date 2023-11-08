@@ -7,7 +7,7 @@ on:
 
 jobs:
   lint:
-    name: Lint and type check
+    name: Lint and type check with Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
         fail-fast: false
