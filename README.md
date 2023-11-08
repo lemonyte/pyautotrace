@@ -60,7 +60,6 @@ In order to compile the generated C code, you will need to have
 
 - Tests
 - Documentation
-- Workflow upload to PyPI
 
 ## License
 
