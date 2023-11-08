@@ -1,14 +1,14 @@
-name: Build Wheels
+name: Build
 
 on:
-  push:
-    paths:
-      - ".github/workflows/**"
-      - "autotrace/**"
-      - "**.py"
-      - "**.toml"
-      - "**.in"
-  pull_request:
+  # push:
+  #   paths:
+  #     - ".github/workflows/**"
+  #     - "autotrace/**"
+  #     - "**.py"
+  #     - "**.toml"
+  #     - "**.in"
+  workflow_call:
   workflow_dispatch:
 
 concurrency:
@@ -20,8 +20,8 @@ jobs:
     name: Build source distribution
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           submodules: true
 
@@ -31,7 +31,7 @@ jobs:
           unzip ./third-party/autotrace/distribute/win/3rdparty/glib-dev_2.34.3-1_win64.zip
           -d ./third-party/glib
 
-      - name: Build sdist
+      - name: Build source distribution
         run: pipx run build --sdist
 
       - name: Upload artifacts
@@ -51,8 +51,8 @@ jobs:
           - windows-latest
           - macos-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           submodules: true
 
@@ -63,7 +63,7 @@ jobs:
           -d ./third-party/glib
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.12.0
+        uses: pypa/cibuildwheel@v2.16.2
         env:
           CIBW_SKIP: pp*
           CIBW_ARCHS: auto64
@@ -74,25 +74,3 @@ jobs:
         with:
           name: wheels
           path: ./wheelhouse/*.whl
-
-  # publish_release:
-  #   needs:
-  #     - build_sdist
-  #     - build_wheels
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && github.actor == 'lemonyte'
-  #   steps:
-  #     - name: Download artifacts
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         path: ./dist
-
-  #     - name: Create release
-  #       uses: softprops/action-gh-release@v1
-  #       with:
-  #         files: ./dist/*
-
-  #     - name: Publish to PyPI
-  #       uses: pypa/gh-action-pypi-publish@release/v1
-  #       with:
-  #         password: ${{ secrets.PYPI_API_TOKEN }}
