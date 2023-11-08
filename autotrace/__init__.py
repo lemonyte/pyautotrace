@@ -1,6 +1,6 @@
 """Python bindings for AutoTrace."""
 
-from .autotrace import (
+from autotrace.autotrace import (
     Bitmap,
     Color,
     Path,
@@ -24,4 +24,4 @@ __all__ = [
     "trace",
     "__version__",
 ]
-__version__ = "0.0.3"
+__version__ = "0.0.4"
