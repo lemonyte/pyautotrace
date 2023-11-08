@@ -8,7 +8,7 @@ on:
   #     - v*
   workflow_call:
 
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+concurrency: release-${{ github.ref }}
 
 jobs:
   release:
