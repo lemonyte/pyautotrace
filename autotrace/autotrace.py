@@ -162,7 +162,11 @@ class Bitmap:
         data: The bitmap data.
     """
 
-    def __init__(self, data: Sequence[Sequence[Sequence[int]]] | NDArray[np.uint8], /) -> None:
+    def __init__(
+        self,
+        data: Sequence[Sequence[Sequence[int]]] | NDArray[np.uint8],
+        /,
+    ) -> None:
         self.data = data
 
     def __len__(self) -> int:
