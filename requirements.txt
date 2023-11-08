@@ -1,0 +1,4 @@
+pre-commit~=3.5.0
+setuptools>=61
+wheel~=0.41.3
+Cython~=3.0.5

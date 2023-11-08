@@ -47,3 +47,18 @@ version = {attr = "autotrace.__version__"}
 
 [tool.cibuildwheel]
 build-frontend = "build"
+
+[tool.ruff]
+select = ["ALL"]
+ignore = ["A", "D"]
+src = ["src"]
+line-length = 119
+target-version = "py38"
+fix = true
+
+[tool.black]
+line-length = 119
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
