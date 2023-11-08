@@ -5,7 +5,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import Sequence
+from typing import TYPE_CHECKING, Sequence
+
+if TYPE_CHECKING:
+    import numpy as np
+    from numpy.typing import NDArray
 
 
 class PolynomialDegree(IntEnum):
@@ -158,7 +162,7 @@ class Bitmap:
         data: The bitmap data.
     """
 
-    def __init__(self, data: Sequence[Sequence[Sequence[int]]], /) -> None:
+    def __init__(self, data: Sequence[Sequence[Sequence[int]]] | NDArray[np.uint8], /) -> None:
         self.data = data
 
     def __len__(self) -> int:
@@ -177,7 +181,11 @@ class Bitmap:
         return _trace(self.data, options)
 
 
-def trace(bitmap: Sequence[Sequence[Sequence[int]]], /, options: TraceOptions | None = None) -> Vector:
+def trace(
+    bitmap: Sequence[Sequence[Sequence[int]]] | NDArray[np.uint8],
+    /,
+    options: TraceOptions | None = None,
+) -> Vector:
     """Trace a vector from a bitmap. Convenience function for `Bitmap.trace()`.
 
     Args:
