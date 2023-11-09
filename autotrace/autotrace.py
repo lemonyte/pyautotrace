@@ -3,11 +3,14 @@
 
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 from enum import IntEnum
 from typing import TYPE_CHECKING, Sequence
 
 if TYPE_CHECKING:
+    from os import PathLike
+
     import numpy as np
     from numpy.typing import NDArray
 
@@ -143,7 +146,7 @@ class Vector:
     def __len__(self) -> int:
         return len(self.paths)
 
-    def save(self, filename: str, /, *, format: str | None = None) -> None:
+    def save(self, filename: PathLike | str | bytes, /, *, format: str | None = None) -> None:
         """Save the image to a file.
 
         Args:
@@ -152,7 +155,7 @@ class Vector:
                 format will be inferred from the filename.
         """
 
-        _save(self, filename, format)
+        _save(self, os.fspath(filename), format)
 
 
 class Bitmap:

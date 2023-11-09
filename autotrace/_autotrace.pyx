@@ -206,7 +206,11 @@ def trace(data, options = None):
 
 # Save a Vector object to a file.
 def save(vector_image, filename, format = None):
-    filename_bytes = filename.encode("utf-8")
+    if isinstance(filename, bytes):
+        filename_bytes = filename
+    else:
+        filename_bytes = filename.encode("utf-8")
+
     cdef at_spline_writer *writer = NULL
 
     if format is None:
