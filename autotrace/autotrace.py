@@ -147,15 +147,27 @@ class Vector:
         return len(self.paths)
 
     def save(self, filename: PathLike | str | bytes, /, *, format: str | None = None) -> None:
-        """Save the image to a file.
+        """Save the vector to a file.
 
         Args:
             filename: The name of the file to save to.
-            format: The format to save the image as. If not specified, the
+            format: The format to save the vector as. If not specified, the
                 format will be inferred from the filename.
         """
 
         _save(self, os.fspath(filename), format)
+
+    def encode(self, format: str) -> bytes:
+        """Encode the vector using the specified format and return the bytes.
+
+        Args:
+            format: The format to encode the vector as.
+
+        Returns:
+            bytes: The encoded vector data.
+        """
+
+        return _encode(self, format)
 
 
 class Bitmap:
@@ -208,5 +220,6 @@ def trace(
 
 # pyright: reportMissingImports=false
 # pylint: disable=import-error, wrong-import-position
+from ._autotrace import encode as _encode  # noqa: E402
 from ._autotrace import save as _save  # noqa: E402
 from ._autotrace import trace as _trace  # noqa: E402

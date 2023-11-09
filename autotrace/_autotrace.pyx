@@ -3,6 +3,9 @@
 cimport libc.stdlib
 cimport libc.stdio
 
+import os
+import tempfile
+
 from ._autotrace cimport *
 from .autotrace import Color, Path, Point, Spline, Vector
 
@@ -202,6 +205,22 @@ def trace(data, options = None):
     at_splines_free(at_spline_list_array)
 
     return vector_image
+
+
+# Encode a Vector object and return the data as bytes.
+def encode(vector_image, format) -> bytes:
+    file = tempfile.NamedTemporaryFile(delete=False)
+    filename = file.name
+    file.close()
+
+    try:
+        save(vector_image, filename, format)
+        with open(filename, "rb") as file:
+            data = file.read()
+    finally:
+        os.remove(filename)
+
+    return data
 
 
 # Save a Vector object to a file.
