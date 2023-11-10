@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
-from enum import IntEnum
+from enum import Enum, IntEnum
 from typing import TYPE_CHECKING, Sequence
 
 if TYPE_CHECKING:
@@ -13,6 +13,29 @@ if TYPE_CHECKING:
 
     import numpy as np
     from numpy.typing import NDArray
+
+
+class VectorFormat(Enum):
+    """Vector output formats."""
+
+    AI = "ai"
+    CGM = "cgm"
+    DR2D = "dr2d"
+    DXF = "dxf"
+    EMF = "emf"
+    EPD = "epd"
+    EPS = "eps"
+    ER = "er"
+    FIG = "fig"
+    ILD = "ild"
+    MIF = "mif"
+    P2E = "p2e"
+    PDF = "pdf"
+    PLT = "plt"
+    POV = "pov"
+    SK = "sk"
+    SVG = "svg"
+    UGS = "ugs"
 
 
 class PolynomialDegree(IntEnum):
@@ -146,7 +169,13 @@ class Vector:
     def __len__(self) -> int:
         return len(self.paths)
 
-    def save(self, filename: PathLike | str | bytes, /, *, format: str | None = None) -> None:
+    def save(
+        self,
+        filename: PathLike | str | bytes,
+        /,
+        *,
+        format: VectorFormat | str | None = None,
+    ) -> None:
         """Save the vector to a file.
 
         Args:
@@ -157,7 +186,7 @@ class Vector:
 
         _save(self, os.fspath(filename), format)
 
-    def encode(self, format: str) -> bytes:
+    def encode(self, format: VectorFormat | str) -> bytes:
         """Encode the vector using the specified format and return the bytes.
 
         Args:

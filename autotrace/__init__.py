@@ -9,6 +9,7 @@ from autotrace.autotrace import (
     Spline,
     TraceOptions,
     Vector,
+    VectorFormat,
     trace,
 )
 
@@ -21,6 +22,7 @@ __all__ = [
     "Spline",
     "TraceOptions",
     "Vector",
+    "VectorFormat",
     "trace",
     "__version__",
 ]

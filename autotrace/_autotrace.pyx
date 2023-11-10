@@ -7,7 +7,7 @@ import os
 import tempfile
 
 from ._autotrace cimport *
-from .autotrace import Color, Path, Point, Spline, Vector
+from .autotrace import Color, Path, Point, Spline, Vector, VectorFormat
 
 
 # Allocate memory and initialize it to zero.
@@ -229,6 +229,9 @@ def save(vector, filename, format = None):
         filename_bytes = filename
     else:
         filename_bytes = filename.encode("utf-8")
+
+    if isinstance(format, VectorFormat):
+        format = format.value
 
     cdef at_spline_writer *writer = NULL
 
