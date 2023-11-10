@@ -16,7 +16,7 @@ python -m pip install pyautotrace
 
 ```python
 import numpy as np
-from autotrace import Bitmap
+from autotrace import Bitmap, VectorFormat
 from PIL import Image
 
 # Load an image.
@@ -28,8 +28,11 @@ bitmap = Bitmap(image)
 # Trace the bitmap.
 vector = bitmap.trace()
 
-# Save the vector.
+# Save the vector as an SVG.
 vector.save("image.svg")
+
+# Get an SVG as a byte string.
+svg = vector.encode(VectorFormat.SVG)
 ```
 
 ## Building
