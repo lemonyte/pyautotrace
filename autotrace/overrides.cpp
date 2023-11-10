@@ -186,8 +186,7 @@ extern "C"
 
     at_bitmap input_gf_reader(gchar *filename, at_input_opts_type *opts, at_msg_func msg_func, gpointer msg_data, gpointer user_data)
     {
-        at_bitmap bitmap = {0};
-        return bitmap;
+        return {0};
     }
 
     /* output.c */
@@ -223,14 +222,7 @@ extern "C"
 
     at_spline_writer *at_output_get_handler(gchar *filename)
     {
-        char *ext = find_suffix(filename);
-
-        if (ext == NULL)
-        {
-            ext = "";
-        }
-
-        return at_output_get_handler_by_suffix(ext);
+        return at_output_get_handler_by_suffix(find_suffix(filename));
     }
 
     at_spline_writer *at_output_get_handler_by_suffix(gchar *suffix)
@@ -251,5 +243,4 @@ extern "C"
 
         return &(it->second);
     }
-
 } /* extern "C" */
