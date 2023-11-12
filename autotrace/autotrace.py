@@ -6,7 +6,7 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 from enum import Enum, IntEnum
-from typing import TYPE_CHECKING, Sequence
+from typing import TYPE_CHECKING, Sequence, overload
 
 if TYPE_CHECKING:
     from os import PathLike
@@ -216,7 +216,64 @@ class Bitmap:
     def __len__(self) -> int:
         return len(self.data)
 
-    def trace(self, options: TraceOptions | None = None) -> Vector:
+    @overload
+    # pylint: disable=too-many-arguments, too-many-locals
+    def trace(  # noqa: PLR0913
+        self,
+        *,
+        background_color: Color | None = None,
+        charcode: int = 0,
+        color_count: int = 0,
+        corner_always_threshold: float = 60.0,
+        corner_surround: int = 4,
+        corner_threshold: float = 100.0,
+        error_threshold: float = 2.0,
+        filter_iterations: int = 4,
+        line_reversion_threshold: float = 0.01,
+        line_threshold: float = 1.0,
+        remove_adjacent_corners: bool = False,
+        tangent_surround: int = 3,
+        despeckle_level: int = 0,
+        despeckle_tightness: float = 2.0,
+        noise_removal: float = 0.99,
+        centerline: bool = False,
+        preserve_width: bool = False,
+        width_weight_factor: float = 6.0,
+    ) -> Vector:
+        ...
+
+    @overload
+    def trace(
+        self,
+        *,
+        options: TraceOptions,
+    ) -> Vector:
+        ...
+
+    # pylint: disable=too-many-arguments, too-many-locals
+    def trace(  # noqa: PLR0913
+        self,
+        *,
+        background_color: Color | None = None,
+        charcode: int = 0,
+        color_count: int = 0,
+        corner_always_threshold: float = 60.0,
+        corner_surround: int = 4,
+        corner_threshold: float = 100.0,
+        error_threshold: float = 2.0,
+        filter_iterations: int = 4,
+        line_reversion_threshold: float = 0.01,
+        line_threshold: float = 1.0,
+        remove_adjacent_corners: bool = False,
+        tangent_surround: int = 3,
+        despeckle_level: int = 0,
+        despeckle_tightness: float = 2.0,
+        noise_removal: float = 0.99,
+        centerline: bool = False,
+        preserve_width: bool = False,
+        width_weight_factor: float = 6.0,
+        options: TraceOptions | None = None,
+    ) -> Vector:
         """Trace a vector from the bitmap.
 
         Args:
@@ -225,6 +282,28 @@ class Bitmap:
         Returns:
             Vector: The traced vector image.
         """
+
+        if options is None:
+            options = TraceOptions(
+                background_color=background_color,
+                charcode=charcode,
+                color_count=color_count,
+                corner_always_threshold=corner_always_threshold,
+                corner_surround=corner_surround,
+                corner_threshold=corner_threshold,
+                error_threshold=error_threshold,
+                filter_iterations=filter_iterations,
+                line_reversion_threshold=line_reversion_threshold,
+                line_threshold=line_threshold,
+                remove_adjacent_corners=remove_adjacent_corners,
+                tangent_surround=tangent_surround,
+                despeckle_level=despeckle_level,
+                despeckle_tightness=despeckle_tightness,
+                noise_removal=noise_removal,
+                centerline=centerline,
+                preserve_width=preserve_width,
+                width_weight_factor=width_weight_factor,
+            )
 
         return _trace(self.data, options)
 
