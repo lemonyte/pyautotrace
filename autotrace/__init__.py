@@ -10,7 +10,6 @@ from autotrace.autotrace import (
     TraceOptions,
     Vector,
     VectorFormat,
-    trace,
 )
 
 __all__ = [
@@ -23,7 +22,6 @@ __all__ = [
     "TraceOptions",
     "Vector",
     "VectorFormat",
-    "trace",
     "__version__",
 ]
 __version__ = "0.0.4"

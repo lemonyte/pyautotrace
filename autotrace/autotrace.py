@@ -229,24 +229,6 @@ class Bitmap:
         return _trace(self.data, options)
 
 
-def trace(
-    bitmap: Sequence[Sequence[Sequence[int]]] | NDArray[np.uint8],
-    /,
-    options: TraceOptions | None = None,
-) -> Vector:
-    """Trace a vector from a bitmap. Convenience function for `Bitmap.trace()`.
-
-    Args:
-        bitmap: The bitmap image.
-        options: Options to use when tracing the image.
-
-    Returns:
-        Vector: The traced vector image.
-    """
-
-    return Bitmap(bitmap).trace(options)
-
-
 # pyright: reportMissingImports=false
 # pylint: disable=import-error, wrong-import-position
 from ._autotrace import encode as _encode  # noqa: E402
