@@ -35,7 +35,7 @@ jobs:
         run: pipx run build --sdist
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: sdist
           path: ./dist/*.tar.gz
@@ -70,7 +70,7 @@ jobs:
           CIBW_ARCHS_MACOS: universal2
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: wheels
           path: ./wheelhouse/*.whl
