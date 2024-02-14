@@ -23,5 +23,7 @@ jobs:
   release:
     name: Release
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [lint, build]
+    needs:
+      - lint
+      - build
     uses: ./.github/workflows/release.yaml
