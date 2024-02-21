@@ -36,6 +36,16 @@ extern "C"
         return g_malloc(n_blocks * n_block_bytes);
     }
 
+    gpointer g_malloc0(gsize n_bytes)
+    {
+        return calloc(1, n_bytes);
+    }
+
+    gpointer g_realloc(gpointer mem, gsize n_bytes)
+    {
+        return realloc(mem, n_bytes);
+    }
+
     void g_free(gpointer mem)
     {
         free(mem);
