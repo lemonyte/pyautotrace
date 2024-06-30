@@ -1,4 +1,3 @@
-# ruff: noqa: ANN101
 """TODO: module docstring"""
 
 from __future__ import annotations
@@ -218,7 +217,7 @@ class Bitmap:
 
     @overload
     # pylint: disable=too-many-arguments, too-many-locals
-    def trace(  # noqa: PLR0913
+    def trace(
         self,
         *,
         background_color: Color | None = None,
@@ -239,16 +238,14 @@ class Bitmap:
         centerline: bool = False,
         preserve_width: bool = False,
         width_weight_factor: float = 6.0,
-    ) -> Vector:
-        ...
+    ) -> Vector: ...
 
     @overload
     def trace(
         self,
         *,
         options: TraceOptions,
-    ) -> Vector:
-        ...
+    ) -> Vector: ...
 
     # pylint: disable=too-many-arguments, too-many-locals
     def trace(  # noqa: PLR0913
