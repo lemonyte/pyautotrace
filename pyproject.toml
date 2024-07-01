@@ -50,7 +50,7 @@ build-frontend = "build"
 [tool.ruff]
 src = ["src"]
 line-length = 119
-target-version = "py38"
+target-version = "py39"
 fix = true
 
 [tool.ruff.lint]
