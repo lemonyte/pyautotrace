@@ -5,9 +5,10 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 from enum import Enum, IntEnum
-from typing import TYPE_CHECKING, Sequence, overload
+from typing import TYPE_CHECKING, overload
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
     from os import PathLike
 
     import numpy as np
