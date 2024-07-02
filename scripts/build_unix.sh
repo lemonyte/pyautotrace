@@ -28,7 +28,7 @@ python --version
 
 # Install build dependencies.
 echo "Installing build dependencies..."
-python -m pip install build
+python -m pip install -r requirements-dev.txt
 
 # Update autotrace submodule.
 if ! [ -d "third-party/autotrace/src" ]

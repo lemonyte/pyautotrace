@@ -35,7 +35,7 @@ try
 
     # Install build dependencies.
     Write-Host "Installing build dependencies..."
-    python -m pip install build
+    python -m pip install -r requirements-dev.txt
 
     # Update autotrace submodule.
     if (-not (Test-Path "third-party\autotrace\src"))
