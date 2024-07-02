@@ -51,7 +51,6 @@ build-frontend = "build"
 src = ["src"]
 line-length = 119
 target-version = "py39"
-fix = true
 
 [tool.ruff.lint]
 select = ["ALL"]
