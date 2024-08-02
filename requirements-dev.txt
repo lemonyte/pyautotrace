@@ -1,4 +1,4 @@
-pre-commit~=3.7.1
+pre-commit~=3.8.0
 setuptools>=61
 Cython~=3.0.10
 build~=1.2.1
