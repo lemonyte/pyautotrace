@@ -44,6 +44,14 @@ package-data = {autotrace = ["py.typed"]}
 [tool.setuptools.dynamic]
 version = {attr = "autotrace.__version__"}
 
+[tool.uv]
+dev-dependencies = [
+    "pre-commit~=3.8.0",
+    "Cython~=3.0.10",
+    "setuptools~=70.2.0",
+    "build~=1.2.1",
+]
+
 [tool.cibuildwheel]
 build-frontend = "build"
 
