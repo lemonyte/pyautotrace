@@ -47,8 +47,8 @@ version = {attr = "autotrace.__version__"}
 [tool.uv]
 dev-dependencies = [
     "pre-commit~=3.8.0",
-    "Cython~=3.0.10",
-    "setuptools~=70.2.0",
+    "Cython~=3.0.11",
+    "setuptools>=61",
     "build~=1.2.1",
 ]
 
