@@ -12,7 +12,7 @@ from autotrace.autotrace import (
     VectorFormat,
 )
 
-__all__ = [
+__all__ = (
     "Bitmap",
     "Color",
     "Path",
@@ -23,5 +23,5 @@ __all__ = [
     "Vector",
     "VectorFormat",
     "__version__",
-]
+)
 __version__ = "0.0.4"
