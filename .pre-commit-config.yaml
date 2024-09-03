@@ -2,6 +2,8 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
       - id: check-toml
       - id: check-yaml
       - id: end-of-file-fixer
@@ -9,12 +11,12 @@ repos:
         args: [--markdown-linebreak-ext=md]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.5.0
+    rev: v0.6.3
     hooks:
       - id: ruff
       - id: ruff-format
 
   - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.369
+    rev: v1.1.378
     hooks:
       - id: pyright
