@@ -52,7 +52,12 @@ package-data = {autotrace = ["py.typed"]}
 version = {attr = "autotrace.__version__"}
 
 [tool.cibuildwheel]
+skip = "pp*"
+archs = ["auto64"]
 build-frontend = "build[uv]"
+
+[tool.cibuildwheel.macos]
+archs = ["universal2"]
 
 [tool.ruff]
 src = ["src"]
