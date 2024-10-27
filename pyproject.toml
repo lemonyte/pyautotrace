@@ -1,7 +1,7 @@
 [build-system]
 requires = [
+    "cython~=3.0.11",
     "setuptools>=61",
-    "Cython~=3.0.11",
 ]
 build-backend = "setuptools.build_meta"
 
@@ -39,7 +39,9 @@ Repository = "https://github.com/lemonyte/pyautotrace"
 
 [dependency-groups]
 dev = [
+    "cython~=3.0.11",
     "pre-commit~=3.8.0",
+    "setuptools>=61",
 ]
 
 [tool.setuptools]
