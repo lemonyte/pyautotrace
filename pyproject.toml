@@ -50,7 +50,7 @@ package-data = {autotrace = ["py.typed"]}
 version = {attr = "autotrace.__version__"}
 
 [tool.cibuildwheel]
-build-frontend = "build"
+build-frontend = "build[uv]"
 
 [tool.ruff]
 src = ["src"]
