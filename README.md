@@ -37,26 +37,27 @@ svg = vector.encode(VectorFormat.SVG)
 
 ## Building
 
-If you wish to build the package from source, clone the repository and follow the instructions for your platform below.
-
-### Linux and MacOS
-
-```shell
-sh ./scripts/build_unix.sh
-```
-
-A virtual environment will be created using your default Python installation.
-Compilation requires GLib, pkg-config, and unzip to be installed on your system, which most Linux distributions include by default.
-On MacOS you can install GLib with `brew install glib`.
-
-### Windows
+If you wish to build the package from source, the easiest way to do so is with [uv](https://docs.astral.sh/uv/).
+Clone the repository and run the following commands inside the project directory.
 
 ```shell
-.\scripts\build_windows.ps1
+# Clone the AutoTrace submodule.
+git submodule update --init
+
+# If you're on Windows, extract the GLib headers archive.
+Expand-Archive "third-party\autotrace\distribute\win\3rdparty\glib-dev_2.34.3-1_win64.zip" -DestinationPath "third-party\glib"
+
+# If you're on macOS, install GLib with Homebrew.
+brew install glib
+
+# Build the package with uv.
+uv build
 ```
 
-A virtual environment will be created using your default Python installation.
-In order to compile the generated C code, you will need to have
+On Linux and macOS compilation requires GLib, pkg-config, and unzip to be installed on your system, which most Linux distributions include by default.
+You can install GLib on macOS with `brew install glib`.
+
+On Windows, in order to compile the generated C code, you will need to have
 [Visual C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) or another C/C++ compiler installed.
 
 ## TODO
