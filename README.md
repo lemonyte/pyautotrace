@@ -8,8 +8,14 @@ Python bindings for [AutoTrace](https://github.com/autotrace/autotrace).
 
 ## Installation
 
+Install PyAutoTrace using your package manager of choice.
+
 ```shell
 python -m pip install pyautotrace
+```
+
+```shell
+uv add pyautotrace
 ```
 
 ## Usage
