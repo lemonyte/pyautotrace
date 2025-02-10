@@ -1,8 +1,5 @@
 [build-system]
-requires = [
-    "cython~=3.0.11",
-    "setuptools>=61",
-]
+requires = ["cython~=3.0.11", "setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -10,18 +7,10 @@ name = "pyautotrace"
 dynamic = ["version"]
 description = "Python bindings for AutoTrace."
 readme = "README.md"
-license = {file = "LICENSE.txt"}
+license = { file = "LICENSE.txt" }
 requires-python = ">=3.9"
-authors = [
-    {name = "Lemonyte"},
-]
-keywords = [
-    "autotrace",
-    "bitmap",
-    "graphics",
-    "tracing",
-    "vector",
-]
+authors = [{ name = "Lemonyte", email = "hello@lemonyte.com" }]
+keywords = ["autotrace", "bitmap", "graphics", "tracing", "vector"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -38,26 +27,20 @@ classifiers = [
 Repository = "https://github.com/lemonyte/pyautotrace"
 
 [dependency-groups]
-dev = [
-    "cython~=3.0.11",
-    "pre-commit~=3.8.0",
-    "setuptools>=61",
-]
+dev = ["cython~=3.0.11", "setuptools>=61", "pre-commit~=4.1.0"]
 
 [tool.setuptools]
 packages = ["autotrace"]
-package-data = {autotrace = ["py.typed"]}
+package-data = { autotrace = ["py.typed"] }
 
 [tool.setuptools.dynamic]
-version = {attr = "autotrace.__version__"}
+version = { attr = "autotrace.__version__" }
 
 [tool.cibuildwheel]
 skip = "pp*"
 archs = ["auto64"]
 build-frontend = "build[uv]"
-
-[tool.cibuildwheel.macos]
-archs = ["universal2"]
+macos = { archs = ["universal2"] }
 
 [tool.ruff]
 src = ["src"]
