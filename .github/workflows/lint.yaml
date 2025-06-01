@@ -9,6 +9,8 @@ jobs:
   lint:
     name: Lint and type check with Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
