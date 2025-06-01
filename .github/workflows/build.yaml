@@ -36,6 +36,7 @@ jobs:
 
       - name: test pkg-config
         run: |
+          sudo apt install -y libglib2.0-dev
           pkg-config --version
           pkg-config --cflags glib-2.0
           pkg-config --libs glib-2.0
