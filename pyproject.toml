@@ -7,7 +7,8 @@ name = "pyautotrace"
 dynamic = ["version"]
 description = "Python bindings for AutoTrace."
 readme = "README.md"
-license = { file = "LICENSE.txt" }
+license = "MIT"
+license-files = ["LICENSE.txt", "LICENSE-autotrace.txt"]
 requires-python = ">=3.9"
 authors = [{ name = "Lemonyte", email = "hello@lemonyte.com" }]
 keywords = ["autotrace", "bitmap", "graphics", "tracing", "vector"]
