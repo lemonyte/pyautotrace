@@ -18,13 +18,13 @@ jobs:
       contents: write
     steps:
       - name: Download sdist artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: sdist
           path: ./dist
 
       - name: Download wheels artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: wheels
           path: ./dist
@@ -43,13 +43,13 @@ jobs:
       id-token: write
     steps:
       - name: Download sdist artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: sdist
           path: ./dist
 
       - name: Download wheels artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: wheels
           path: ./dist
