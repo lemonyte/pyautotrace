@@ -29,13 +29,13 @@ cdef void at_fitting_opts_free(at_fitting_opts_type *opts):
 
 # Convert an array object to an at_bitmap struct.
 cdef at_bitmap *array_to_at_bitmap(data):
-    cdef int height = len(data)
-    cdef int width = len(data[0])
-    cdef int np = len(data[0][0])
+    cdef unsigned int height = len(data)
+    cdef unsigned int width = len(data[0])
+    cdef unsigned int np = len(data[0][0])
 
     cdef at_bitmap *bitmap = at_bitmap_new(width, height, np)
 
-    cdef int x, y, p, i = 0
+    cdef unsigned int x, y, p, i = 0
     for y in range(height):
         for x in range(width):
             for p in range(np):
@@ -96,7 +96,7 @@ cdef at_spline_list_array_type *vector_to_at_splines(vector):
     at_spline_list_array.length = len(vector)
     at_spline_list_array.data = <at_spline_list_type *>alloc(sizeof(at_spline_list_type) * at_spline_list_array.length)
 
-    cdef int i, j, k
+    cdef unsigned int i, j, k = 0
     for i in range(len(vector)):
         path = vector.paths[i]
 
@@ -145,7 +145,7 @@ cdef at_splines_to_vector(at_spline_list_array_type *at_spline_list_array):
         width_weight_factor=at_spline_list_array.width_weight_factor,
     )
 
-    cdef int i, j, k
+    cdef unsigned int i, j, k = 0
     for i in range(at_spline_list_array.length):
         at_spline_list = at_spline_list_array.data[i]
 
