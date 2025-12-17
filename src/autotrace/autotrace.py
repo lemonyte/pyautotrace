@@ -1,4 +1,4 @@
-"""TODO: module docstring"""
+"""Python bindings for AutoTrace."""
 
 from __future__ import annotations
 
@@ -88,7 +88,6 @@ class TraceOptions:
         TODO: rest of the options
     """
 
-    # pylint: disable=too-many-instance-attributes
     background_color: Color | None = None
     charcode: int = 0
     color_count: int = 0
@@ -217,7 +216,6 @@ class Bitmap:
         return len(self.data)
 
     @overload
-    # pylint: disable=too-many-arguments, too-many-locals
     def trace(
         self,
         *,
@@ -248,7 +246,6 @@ class Bitmap:
         options: TraceOptions,
     ) -> Vector: ...
 
-    # pylint: disable=too-many-arguments, too-many-locals
     def trace(  # noqa: PLR0913
         self,
         *,
