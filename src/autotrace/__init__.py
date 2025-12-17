@@ -1,4 +1,28 @@
-"""Python bindings for AutoTrace."""
+"""Python bindings for AutoTrace.
+
+## Usage
+
+```python
+import numpy as np
+from autotrace import Bitmap, VectorFormat
+from PIL import Image
+
+# Load an image.
+image = np.asarray(Image.open("image.jpeg").convert("RGB"))
+
+# Create a bitmap.
+bitmap = Bitmap(image)
+
+# Trace the bitmap.
+vector = bitmap.trace()
+
+# Save the vector as an SVG.
+vector.save("image.svg")
+
+# Get an SVG as a byte string.
+svg = vector.encode(VectorFormat.SVG)
+```
+"""
 
 from autotrace.autotrace import (
     Bitmap,
