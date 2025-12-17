@@ -27,7 +27,12 @@ classifiers = [
 Repository = "https://github.com/lemonyte/pyautotrace"
 
 [dependency-groups]
-dev = ["cython~=3.2.2", "setuptools>=61", "pre-commit~=4.3.0"]
+dev = [
+    "cython~=3.2.2",
+    "prek>=0.2.22",
+    "setuptools>=61",
+    "ty>=0.0.2",
+]
 numpy = ["numpy>=2.0.2,<3.0.0"]
 
 [tool.setuptools]
@@ -51,7 +56,3 @@ target-version = "py39"
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = ["A", "D"]
-
-[tool.pyright]
-venvPath = "."
-venv = ".venv"
