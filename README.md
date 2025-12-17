@@ -4,7 +4,7 @@ Python bindings for [AutoTrace](https://github.com/autotrace/autotrace).
 
 ## Requirements
 
-- [Python 3.9](https://www.python.org/downloads/) or higher
+- [Python 3.10](https://www.python.org/downloads/) or higher
 
 ## Installation
 
