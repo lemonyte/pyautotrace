@@ -10,7 +10,7 @@ readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE.txt", "LICENSE-autotrace.txt"]
 requires-python = ">=3.9"
-authors = [{ name = "Lemonyte", email = "hello@lemonyte.com" }]
+authors = [{ name = "Lemonyte", email = "contact@lemonyte.com" }]
 keywords = ["autotrace", "bitmap", "graphics", "tracing", "vector"]
 classifiers = [
     "Development Status :: 3 - Alpha",
