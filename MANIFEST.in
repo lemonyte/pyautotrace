@@ -1,0 +1,5 @@
+include ./src/autotrace/*.pyx
+include ./src/autotrace/*.pxd
+include ./third-party/autotrace/src/*.h
+recursive-include ./third-party/glib/include/glib-2.0 *.h
+recursive-include ./third-party/glib/lib/glib-2.0/include *.h

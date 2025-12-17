@@ -1,5 +1,0 @@
-Cython~=0.29.32
-# Earlier versions of setuptools have a bug relating to quotes in command line arguments
-setuptools>=60.0.0
-wheel~=0.37.1
-twine~=4.0.1

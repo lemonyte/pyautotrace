@@ -1,17 +1,32 @@
 # PyAutoTrace
+
 Python bindings for [AutoTrace](https://github.com/autotrace/autotrace).
 
 ## Requirements
-- [Python 3.7](https://www.python.org/downloads/) or higher
+
+- [Python 3.10](https://www.python.org/downloads/) or higher
+
+## Installation
+
+Install PyAutoTrace using your package manager of choice.
+
+```shell
+python -m pip install pyautotrace
+```
+
+```shell
+uv add pyautotrace
+```
 
 ## Usage
+
 ```python
 import numpy as np
-from autotrace import Bitmap
+from autotrace import Bitmap, VectorFormat
 from PIL import Image
 
 # Load an image.
-image = np.asarray(Image.open('image.jpeg').convert('RGB'))
+image = np.asarray(Image.open("image.jpeg").convert("RGB"))
 
 # Create a bitmap.
 bitmap = Bitmap(image)
@@ -19,44 +34,48 @@ bitmap = Bitmap(image)
 # Trace the bitmap.
 vector = bitmap.trace()
 
-# Save the vector.
-vector.save('image.svg')
+# Save the vector as an SVG.
+vector.save("image.svg")
+
+# Get an SVG as a byte string.
+svg = vector.encode(VectorFormat.SVG)
 ```
 
 ## Building
-If you wish to build the package from source,
-clone the repository and follow the instructions for your platform below.
-The Python build requirements are listed in [`requirements-dev.txt`](requirements-dev.txt).
 
-### Linux
+If you wish to build the package from source, the easiest way to do so is with [uv](https://docs.astral.sh/uv/).
+Clone the repository and run the following commands inside the project directory.
+
 ```shell
-sh ./scripts/build_linux.sh
+# Clone the AutoTrace submodule.
+git submodule update --init
+
+# If you're on Windows, extract the GLib headers archive.
+Expand-Archive "third-party\autotrace\distribute\win\3rdparty\glib-dev_2.34.3-1_win64.zip" -DestinationPath "third-party\glib"
+
+# If you're on macOS, install GLib with Homebrew.
+brew install glib
+
+# Build the package with uv.
+uv build
 ```
 
-A virtual environment will be created using your default Python installation.
-Compilation requires GLib to be installed on your system, which most Linux distributions include by default.
-The script will clone the AutoTrace repository,
-which provides the required header files for AutoTrace.
+On Linux and macOS compilation requires GLib, pkg-config, and unzip to be installed on your system, which most Linux distributions include by default.
+You can install GLib on macOS with `brew install glib`.
 
-### MacOS
-Building on MacOS has not yet been tried or tested.
-
-### Windows
-```shell
-.\scripts\build_windows.ps1
-```
-
-A virtual environment will be created using your default Python installation.
-In order to compile the generated C code, you will need to have
+On Windows, in order to compile the generated C code, you will need to have
 [Visual C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) or another C/C++ compiler installed.
-The script will clone the AutoTrace repository,
-which provides the required header files for both AutoTrace and GLib.
 
 ## TODO
-- MacOS build script
-- Workflow to build and upload to PyPI
+
+- Tests
 - Documentation
-- Git submodules?
 
 ## License
-[MIT License](license.txt)
+
+This project is licensed under the [LGPLv2.1](LICENSE.txt) license.
+
+This project depends on the AutoTrace project, which is licensed under the [LGPLv2.1](https://github.com/autotrace/autotrace/blob/master/COPYING.LIB) license.
+AutoTrace, and by extension this project, requires the presence of GLib to compile, which is licensed under the [LGPLv2.1](https://github.com/GNOME/glib/blob/main/COPYING) license, but this project does not depend on GLib to run.
+
+This project contains code that replaces portions of [AutoTrace](https://github.com/autotrace/autotrace) and [GLib](https://github.com/GNOME/glib), defined in [`overrides.cpp`](autotrace/overrides.cpp). Some of the implementations were taken directly from, or are based on, the source code of their respective libraries.

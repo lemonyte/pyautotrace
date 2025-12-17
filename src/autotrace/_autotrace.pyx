@@ -2,8 +2,12 @@
 
 cimport libc.stdlib
 cimport libc.stdio
+
+import os
+import tempfile
+
 from ._autotrace cimport *
-from .autotrace import Color, Path, Point, Spline, Vector
+from .autotrace import Color, Path, Point, Spline, Vector, VectorFormat
 import numpy as np
 from cython.view cimport array as cvarray
 
@@ -27,13 +31,13 @@ cdef void at_fitting_opts_free(at_fitting_opts_type *opts):
 
 # Convert an array object to an at_bitmap struct.
 cdef at_bitmap *array_to_at_bitmap(data):
-    cdef int height = len(data)
-    cdef int width = len(data[0])
-    cdef int np = len(data[0][0])
+    cdef unsigned int height = len(data)
+    cdef unsigned int width = len(data[0])
+    cdef unsigned int np = len(data[0][0])
 
     cdef at_bitmap *bitmap = at_bitmap_new(width, height, np)
 
-    cdef int x, y, p, i = 0
+    cdef unsigned int x, y, p, i = 0
     for y in range(height):
         for x in range(width):
             for p in range(np):
@@ -76,27 +80,27 @@ cdef at_fitting_opts_type *trace_options_to_at_fitting_opts(options):
 
 
 # Convert a Vector object to an at_spline_list_array struct.
-cdef at_spline_list_array_type *vector_image_to_at_splines(vector_image):
+cdef at_spline_list_array_type *vector_to_at_splines(vector):
     at_spline_list_array = <at_spline_list_array_type *>alloc(sizeof(at_spline_list_array_type))
 
-    if vector_image.background_color is not None:
+    if vector.background_color is not None:
         at_spline_list_array.background_color = at_color_new(
-            vector_image.background_color.r,
-            vector_image.background_color.g,
-            vector_image.background_color.b,
+            vector.background_color.r,
+            vector.background_color.g,
+            vector.background_color.b,
         )
 
-    at_spline_list_array.width = vector_image.width
-    at_spline_list_array.height = vector_image.height
-    at_spline_list_array.centerline = vector_image.centerline
-    at_spline_list_array.preserve_width = vector_image.preserve_width
-    at_spline_list_array.width_weight_factor = vector_image.width_weight_factor
-    at_spline_list_array.length = len(vector_image)
+    at_spline_list_array.width = vector.width
+    at_spline_list_array.height = vector.height
+    at_spline_list_array.centerline = vector.centerline
+    at_spline_list_array.preserve_width = vector.preserve_width
+    at_spline_list_array.width_weight_factor = vector.width_weight_factor
+    at_spline_list_array.length = len(vector)
     at_spline_list_array.data = <at_spline_list_type *>alloc(sizeof(at_spline_list_type) * at_spline_list_array.length)
 
-    cdef int i, j, k
-    for i in range(len(vector_image)):
-        path = vector_image.paths[i]
+    cdef unsigned int i, j, k = 0
+    for i in range(len(vector)):
+        path = vector.paths[i]
 
         at_spline_list = &at_spline_list_array.data[i]
         at_spline_list.color.r = path.color.r
@@ -123,7 +127,7 @@ cdef at_spline_list_array_type *vector_image_to_at_splines(vector_image):
 
 
 # Convert an at_spline_list_array struct to a Vector object.
-cdef at_splines_to_vector_image(at_spline_list_array_type *at_spline_list_array):
+cdef at_splines_to_vector(at_spline_list_array_type *at_spline_list_array):
     if at_spline_list_array.background_color != NULL:
         background_color = Color(
             r=at_spline_list_array.background_color.r,
@@ -133,7 +137,7 @@ cdef at_splines_to_vector_image(at_spline_list_array_type *at_spline_list_array)
     else:
         background_color = None
 
-    vector_image = Vector(
+    vector = Vector(
         paths=[],
         width=at_spline_list_array.width,
         height=at_spline_list_array.height,
@@ -143,7 +147,7 @@ cdef at_splines_to_vector_image(at_spline_list_array_type *at_spline_list_array)
         width_weight_factor=at_spline_list_array.width_weight_factor,
     )
 
-    cdef int i, j, k
+    cdef unsigned int i, j, k = 0
     for i in range(at_spline_list_array.length):
         at_spline_list = at_spline_list_array.data[i]
 
@@ -180,9 +184,9 @@ cdef at_splines_to_vector_image(at_spline_list_array_type *at_spline_list_array)
 
             path.splines.append(spline)
 
-        vector_image.paths.append(path)
+        vector.paths.append(path)
 
-    return vector_image
+    return vector
 
 
 # Trace a bitmap image.
@@ -194,20 +198,43 @@ def trace(data, options = None):
         opts = trace_options_to_at_fitting_opts(options)
     else:
         opts = at_fitting_opts_new()
- 
+
     cdef at_spline_list_array_type *at_spline_list_array = at_splines_new(bitmap, opts, NULL, NULL)
-    vector_image = at_splines_to_vector_image(at_spline_list_array)
+    vector = at_splines_to_vector(at_spline_list_array)
 
     at_bitmap_free(bitmap)
     at_fitting_opts_free(opts)
     at_splines_free(at_spline_list_array)
 
-    return vector_image
+    return vector
+
+
+# Encode a Vector object and return the data as bytes.
+def encode(vector, format) -> bytes:
+    file = tempfile.NamedTemporaryFile(delete=False)
+    filename = file.name
+    file.close()
+
+    try:
+        save(vector, filename, format)
+        with open(filename, "rb") as file:
+            data = file.read()
+    finally:
+        os.remove(filename)
+
+    return data
 
 
 # Save a Vector object to a file.
-def save(vector_image, filename, format = None):
-    filename_bytes = filename.encode("utf-8")
+def save(vector, filename, format = None):
+    if isinstance(filename, bytes):
+        filename_bytes = filename
+    else:
+        filename_bytes = filename.encode("utf-8")
+
+    if isinstance(format, VectorFormat):
+        format = format.value
+
     cdef at_spline_writer *writer = NULL
 
     if format is None:
@@ -223,7 +250,7 @@ def save(vector_image, filename, format = None):
     if fd is NULL:
         raise IOError(f"could not open file '{filename}' for writing")
 
-    cdef at_spline_list_array_type *at_spline_list_array = vector_image_to_at_splines(vector_image)
+    cdef at_spline_list_array_type *at_spline_list_array = vector_to_at_splines(vector)
 
     at_splines_write(writer, fd, filename_bytes, NULL, at_spline_list_array, NULL, NULL)
 

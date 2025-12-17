@@ -16,8 +16,10 @@ env/
 !*.spec
 *.dll
 *.pyd
+*token.txt
 autotrace/*.c
-third-party/
+third-party/glib/
+wheelhouse/
 tests/
 
 # Byte-compiled / optimized / DLL files
