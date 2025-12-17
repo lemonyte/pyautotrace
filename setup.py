@@ -73,8 +73,8 @@ extensions = [
     Extension(
         "autotrace._autotrace",
         sources=[
-            "./autotrace/_autotrace.pyx",
-            "./autotrace/overrides.cpp",
+            "./src/autotrace/_autotrace.pyx",
+            "./src/autotrace/overrides.cpp",
             *autotrace_sources,
         ],
         include_dirs=include_dirs,

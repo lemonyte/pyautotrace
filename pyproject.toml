@@ -36,7 +36,7 @@ dev = [
 numpy = ["numpy>=2.2.6,<3.0.0"]
 
 [tool.setuptools]
-packages = ["autotrace"]
+package-dir = {"" = "src"}
 package-data = { autotrace = ["py.typed"] }
 
 [tool.setuptools.dynamic]
