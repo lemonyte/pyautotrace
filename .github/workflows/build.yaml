@@ -28,7 +28,9 @@ jobs:
           submodules: true
 
       - name: Install GLib
-        run: sudo apt install -y libglib2.0-dev
+        run: |
+          sudo apt update
+          sudo apt install --yes libglib2.0-dev
 
       - name: Extract GLib headers
         shell: bash
