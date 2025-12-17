@@ -306,8 +306,6 @@ class Bitmap:
         return _trace(self.data, options)
 
 
-# pyright: reportMissingImports=false
-# pylint: disable=import-error, wrong-import-position
-from ._autotrace import encode as _encode  # noqa: E402
-from ._autotrace import save as _save  # noqa: E402
-from ._autotrace import trace as _trace  # noqa: E402
+from ._autotrace import encode as _encode  # noqa: E402 # ty: ignore[unresolved-import]
+from ._autotrace import save as _save  # noqa: E402 # ty: ignore[unresolved-import]
+from ._autotrace import trace as _trace  # noqa: E402 # ty: ignore[unresolved-import]
