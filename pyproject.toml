@@ -28,6 +28,7 @@ Repository = "https://github.com/lemonyte/pyautotrace"
 
 [dependency-groups]
 dev = ["cython~=3.2.2", "setuptools>=61", "pre-commit~=4.3.0"]
+numpy = ["numpy>=2.0.2,<3.0.0"]
 
 [tool.setuptools]
 packages = ["autotrace"]
