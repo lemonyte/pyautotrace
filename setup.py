@@ -84,13 +84,6 @@ extensions = [
             ("HAVE_MAGICK_READERS", "1"),
             ("GLIB_STATIC_COMPILATION", "1"),
         ],
-        extra_compile_args=[
-            "-Wno-sign-compare",
-            "-Wno-c++11-compat-deprecated-writable-strings",
-            "-Wno-c++11-extensions",
-            "-Wno-tautological-constant-compare",
-            "-Wno-unused-variable",
-        ],
     ),
 ]
 
