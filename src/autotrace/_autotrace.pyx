@@ -8,8 +8,6 @@ import tempfile
 
 from ._autotrace cimport *
 from .autotrace import Color, Path, Point, Spline, Vector, VectorFormat
-import numpy as np
-from cython.view cimport array as cvarray
 
 
 # Allocate memory and initialize it to zero.
@@ -171,6 +169,7 @@ cdef at_splines_to_vector(at_spline_list_array_type *at_spline_list_array):
                 points=[],
                 degree=at_spline.degree,
                 linearity=at_spline.linearity,
+                _raw_spline=at_spline,
             )
 
             for k in range(4):
@@ -258,23 +257,14 @@ def save(vector, filename, format = None):
     at_splines_free(at_spline_list_array)
 
 
-def evaluate_spline_at_points(spline, points):
-    n_points = points.shape[0]
-    cdef at_spline_type *at_spline = <at_spline_type *>alloc(sizeof(at_spline_type))
-    for i in range(4):
-        at_spline.v[i].x = spline.points[i].x
-        at_spline.v[i].y = spline.points[i].y
-        at_spline.v[i].z = spline.points[i].z
-    at_spline.degree = spline.degree
-    at_spline.linearity = spline.linearity
-    cdef float[:,:] new_arr = cvarray(shape=(n_points, 2), itemsize=sizeof(float), format="f") 
-    cdef at_real_coord coord
-    for i, point in enumerate(points):
-        coord = evaluate_spline(at_spline[0], point)
-        new_arr[i][0] = coord.x
-        new_arr[i][1] = coord.y
-    libc.stdlib.free(at_spline)
-    return np.asarray(new_arr)
+# Evaluate a spline at a given T value in the range [0.0, 1.0].
+def eval_spline(spline, t: float):
+    cdef at_real_coord coord = evaluate_spline(spline, t)
+    return Point(
+        x=coord.x,
+        y=coord.y,
+        z=coord.z,
+    )
 
 # Initialize AutoTrace.
 autotrace_init()

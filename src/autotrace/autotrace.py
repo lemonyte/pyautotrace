@@ -41,12 +41,12 @@ class VectorFormat(Enum):
 class PolynomialDegree(IntEnum):
     """TODO: class docstring"""
 
-    AT_LINEARTYPE = 1
-    AT_QUADRATICTYPE = 2
-    AT_CUBICTYPE = 3
-    AT_PARALLELELLIPSETYPE = 4
-    AT_ELLIPSETYPE = 5
-    AT_CIRCLETYPE = 6
+    LINEAR = 1
+    QUADRATIC = 2
+    CUBIC = 3
+    PARALLEL_ELLIPSE = 4
+    ELLIPSE = 5
+    CIRCLE = 6
 
 
 @dataclass
@@ -121,9 +121,19 @@ class Spline:
     points: tuple[Point, Point, Point, Point]
     degree: PolynomialDegree
     linearity: float
+    _raw_spline: object
+    """Raw `at_spline_type` object for re-using in evaluations."""
 
-    def evaluate(self, t: float) -> Point:
-        return _evaluate_spline(self, t)
+    def evaluate(self, t: float, /) -> Point:
+        """Evaluate the spline at a given T value.
+
+        Args:
+            t: T value in the range [0.0, 1.0].
+
+        Returns:
+            Point: The sampled point on the spline at the given T value.
+        """
+        return _eval_spline(self._raw_spline, t)
 
 
 @dataclass
@@ -307,6 +317,6 @@ class Bitmap:
 
 
 from ._autotrace import encode as _encode  # noqa: E402 # ty: ignore[unresolved-import]
-from ._autotrace import evaluate_spline as _evaluate_spline  # noqa: E402 # ty: ignore[unresolved-import]
+from ._autotrace import eval_spline as _eval_spline  # noqa: E402 # ty: ignore[unresolved-import]
 from ._autotrace import save as _save  # noqa: E402 # ty: ignore[unresolved-import]
 from ._autotrace import trace as _trace  # noqa: E402 # ty: ignore[unresolved-import]
