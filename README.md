@@ -2,10 +2,6 @@
 
 Python bindings for [AutoTrace](https://github.com/autotrace/autotrace).
 
-## Requirements
-
-- [Python 3.10](https://www.python.org/downloads/) or higher
-
 ## Installation
 
 Install PyAutoTrace using your package manager of choice.
