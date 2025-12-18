@@ -19,23 +19,41 @@ class VectorFormat(Enum):
     """Vector output formats."""
 
     AI = "ai"
+    """Adobe Illustrator"""
     CGM = "cgm"
+    """Computer Graphics Metafile"""
     DR2D = "dr2d"
+    """IFF 2-D Object"""
     DXF = "dxf"
+    """AutoCAD Drawing Exchange Format"""
     EMF = "emf"
+    """Enhanced Metafile Format"""
     EPD = "epd"
+    """Encapsulated Vectorial Graphic Format"""
     EPS = "eps"
+    """Encapsulated PostScript"""
     ER = "er"
+    """Elastic Reality Shape Format"""
     FIG = "fig"
+    """Xfig 3.2 Drawing"""
     ILD = "ild"
+    """International Laser Display Association Data Transfer Format"""
     MIF = "mif"
+    """FrameMaker MapInfo Interchange Format"""
     P2E = "p2e"
+    """`pstoedit` Frontend Format"""
     PDF = "pdf"
+    """Portable Document Format"""
     PLT = "plt"
+    """HPGL Plot File"""
     POV = "pov"
+    """POV-Ray Scene Description"""
     SK = "sk"
+    """Sketch/Skencil Drawing"""
     SVG = "svg"
+    """Scalable Vector Graphic"""
     UGS = "ugs"
+    """Unicode Glyph Source"""
 
 
 class PolynomialDegree(IntEnum):
@@ -51,17 +69,14 @@ class PolynomialDegree(IntEnum):
 
 @dataclass
 class Point:
-    """Represents a real coordinate point.
-
-    Attributes:
-        x: The x coordinate.
-        y: The y coordinate.
-        z: The z coordinate.
-    """
+    """Represents a real coordinate point."""
 
     x: float
+    """The x coordinate."""
     y: float
+    """The y coordinate."""
     z: float
+    """The z coordinate."""
 
     def __iter__(self) -> Iterator[float]:
         yield self.x
@@ -71,17 +86,14 @@ class Point:
 
 @dataclass
 class Color:
-    """Represents a color. All components are in the range [0..255].
-
-    Attributes:
-        r: The red component.
-        g: The green component.
-        b: The blue component.
-    """
+    """Represents a color. All components are in the range `0..255`."""
 
     r: int
+    """The red component."""
     g: int
+    """The green component."""
     b: int
+    """The blue component."""
 
     def __iter__(self) -> Iterator[int]:
         yield self.r
@@ -91,46 +103,62 @@ class Color:
 
 @dataclass
 class TraceOptions:
-    """Options for tracing an image.
-
-    Attributes:
-        background_color: The background color.
-        TODO: rest of the options
-    """
+    """Options for tracing an image."""
 
     background_color: Color | None = None
+    """The color of the background that should be ignored."""
     charcode: int = 0
+    """Code of character to load from GF file, allowed are 0..255; default is the first character in font."""
     color_count: int = 0
+    """Number of colors a color bitmap is reduced to, it does not work on grayscale, allowed are 1..256;
+    0 means no color reduction is done."""
     corner_always_threshold: float = 60.0
+    """If the angle at a pixel is less than this, it is considered a corner,
+    even if it is within `corner_surround` pixels of another corner.
+    """
     corner_surround: int = 4
+    """Number of pixels on either side of a point to consider when determining if that point is a corner."""
     corner_threshold: float = 100.0
+    """If a pixel, its predecessor(s), and its successor(s) meet at an angle smaller than this, it's a corner."""
     error_threshold: float = 2.0
+    """Subdivide fitted curves that are off by more pixels than this"""
     filter_iterations: int = 4
+    """Smooth the curve this many times before fitting."""
     line_reversion_threshold: float = 0.01
+    """If a spline is closer to a straight line than this,
+    weighted by the square of the curve length, keep it a straight line even if it is a list with curves.
+    """
     line_threshold: float = 1.0
+    """If the spline is not more than this far away
+    from the straight line defined by its endpoints, then output a straight line."""
     remove_adjacent_corners: bool = False
+    """Remove corners that are adjacent."""
     tangent_surround: int = 3
+    """Number of points on either side of a point to consider when computing the tangent at that point."""
     despeckle_level: int = 0
+    """Level of despeckling to perform in the range `0..20`."""
     despeckle_tightness: float = 2.0
+    """Tightness of despeckling in the range `0.0..8.0`."""
     noise_removal: float = 0.99
+    """Amount of noise to remove in the range `0.0..1.0`."""
     centerline: bool = False
+    """Trace a character's centerline, rather than its outline."""
     preserve_width: bool = False
+    """Whether to preserve linewidth with centerline fitting."""
     width_weight_factor: float = 6.0
+    """Weight factor for fitting the linewidth."""
 
 
 @dataclass
 class Spline:
-    """Represents a sequence four of points.
-
-    Attributes:
-        points: A sequence four points.
-        degree: The degree of the spline.
-        linearity: The divergence of the spline from the straight line between its endpoints.
-    """
+    """Represents a sequence four of points."""
 
     points: tuple[Point, Point, Point, Point]
+    """A sequence of four points defining the spline."""
     degree: PolynomialDegree
+    """The degree of the spline."""
     linearity: float
+    """The divergence of the spline from the straight line between its endpoints."""
     _raw_spline: object
     """Raw `at_spline_type` object for re-using in evaluations."""
 
@@ -138,29 +166,26 @@ class Spline:
         """Evaluate the spline at a given T value.
 
         Args:
-            t: T value in the range [0.0, 1.0].
+            t: T value in the range `0.0..1.0`.
 
         Returns:
-            Point: The sampled point on the spline at the given T value.
+            The sampled point on the spline at the given T value.
         """
         return _eval_spline(self._raw_spline, t)
 
 
 @dataclass
 class Path:
-    """Represents a sequence of splines.
-
-    Attributes:
-        splines: A sequence of splines.
-        color: The color of the path.
-        clockwise: TODO: ???
-        open: TODO: ???
-    """
+    """Represents a sequence of splines."""
 
     splines: Sequence[Spline]
+    """A sequence of splines."""
     color: Color
+    """The color of the path."""
     clockwise: bool
+    """Whether the outline that this path represents moves clockwise or counterclockwise."""
     open: bool
+    """Whether the outline is open (i.e., doesn't return to the starting coordinate)."""
 
     def __len__(self) -> int:
         return len(self.splines)
@@ -168,25 +193,22 @@ class Path:
 
 @dataclass
 class Vector:
-    """Represents a vector image.
-
-    Attributes:
-        paths: A sequence of paths.
-        width: The width of the image.
-        height: The height of the image.
-        background_color: The background color.
-        centerline: TODO: ???
-        preserve_width: TODO: ???
-        width_weight_factor: TODO: ???
-    """
+    """Represents a vector image."""
 
     paths: Sequence[Path]
+    """A sequence of paths."""
     width: int
+    """The width of the image."""
     height: int
+    """The height of the image."""
     background_color: Color
+    """The background color."""
     centerline: bool
+    """See `TraceOptions.centerline`."""
     preserve_width: bool
+    """See `TraceOptions.preserve_width`."""
     width_weight_factor: float
+    """See `TraceOptions.width_weight_factor`."""
 
     def __len__(self) -> int:
         return len(self.paths)
@@ -208,32 +230,25 @@ class Vector:
 
         _save(self, os.fspath(filename), format)
 
-    def encode(self, format: VectorFormat | str) -> bytes:
+    def encode(self, format: VectorFormat | str, /) -> bytes:
         """Encode the vector using the specified format and return the bytes.
 
         Args:
             format: The format to encode the vector as.
 
         Returns:
-            bytes: The encoded vector data.
+            The encoded vector data.
         """
 
         return _encode(self, format)
 
 
+@dataclass
 class Bitmap:
-    """Represents a bitmap image.
+    """Represents a bitmap image."""
 
-    Attributes:
-        data: The bitmap data.
-    """
-
-    def __init__(
-        self,
-        data: Sequence[Sequence[Sequence[int]]] | NDArray[np.uint8],
-        /,
-    ) -> None:
-        self.data = data
+    data: Sequence[Sequence[Sequence[int]]] | NDArray[np.uint8]
+    """The bitmap data as a 3D sequence of pixel values or a NumPy array of shape (height, width, 3)."""
 
     def __len__(self) -> int:
         return len(self.data)
@@ -294,11 +309,11 @@ class Bitmap:
     ) -> Vector:
         """Trace a vector from the bitmap.
 
-        Args:
-            options: Options to use when tracing the image.
+        Options can either be provided as individual parameters or as a `TraceOptions` instance.
+        See `TraceOptions` for documentation of each option.
 
         Returns:
-            Vector: The traced vector image.
+            The traced vector image.
         """
 
         if options is None:
