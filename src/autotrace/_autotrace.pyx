@@ -169,6 +169,7 @@ cdef at_splines_to_vector(at_spline_list_array_type *at_spline_list_array):
                 points=[],
                 degree=at_spline.degree,
                 linearity=at_spline.linearity,
+                _raw_spline=at_spline,
             )
 
             for k in range(4):
@@ -255,6 +256,15 @@ def save(vector, filename, format = None):
     libc.stdio.fclose(fd)
     at_splines_free(at_spline_list_array)
 
+
+# Evaluate a spline at a given T value in the range [0.0, 1.0].
+def eval_spline(spline, t: float):
+    cdef at_real_coord coord = evaluate_spline(spline, t)
+    return Point(
+        x=coord.x,
+        y=coord.y,
+        z=coord.z,
+    )
 
 # Initialize AutoTrace.
 autotrace_init()
