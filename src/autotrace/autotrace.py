@@ -39,7 +39,7 @@ class VectorFormat(Enum):
 
 
 class PolynomialDegree(IntEnum):
-    """TODO: class docstring"""
+    """Represents the degree of a spline."""
 
     LINEAR = 1
     QUADRATIC = 2
@@ -51,7 +51,7 @@ class PolynomialDegree(IntEnum):
 
 @dataclass
 class Point:
-    """Represents a point.
+    """Represents a real coordinate point.
 
     Attributes:
         x: The x coordinate.
@@ -71,7 +71,7 @@ class Point:
 
 @dataclass
 class Color:
-    """Represents a color.
+    """Represents a color. All components are in the range [0..255].
 
     Attributes:
         r: The red component.
@@ -125,7 +125,7 @@ class Spline:
     Attributes:
         points: A sequence four points.
         degree: The degree of the spline.
-        linearity: TODO: ???
+        linearity: The divergence of the spline from the straight line between its endpoints.
     """
 
     points: tuple[Point, Point, Point, Point]
