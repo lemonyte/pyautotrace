@@ -171,4 +171,3 @@ cdef extern from "autotrace.h":
 # https://github.com/autotrace/autotrace/blob/master/src/spline.h
 cdef extern from "spline.h":
     at_real_coord evaluate_spline(at_spline_type spline, gfloat t)
-
