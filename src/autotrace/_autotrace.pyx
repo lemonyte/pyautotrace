@@ -7,7 +7,7 @@ import os
 import tempfile
 
 from ._autotrace cimport *
-from .autotrace import Color, Path, Point, PolynomialDegree Spline, Vector, VectorFormat
+from .autotrace import Color, Path, Point, PolynomialDegree, Spline, Vector, VectorFormat
 
 
 # Allocate memory and initialize it to zero.
