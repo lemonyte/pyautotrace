@@ -8,7 +8,7 @@ from enum import Enum, IntEnum
 from typing import TYPE_CHECKING, overload
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
+    from collections.abc import Iterator, Sequence
     from os import PathLike
 
     import numpy as np
@@ -63,6 +63,11 @@ class Point:
     y: float
     z: float
 
+    def __iter__(self) -> Iterator[float]:
+        yield self.x
+        yield self.y
+        yield self.z
+
 
 @dataclass
 class Color:
@@ -77,6 +82,11 @@ class Color:
     r: int
     g: int
     b: int
+
+    def __iter__(self) -> Iterator[int]:
+        yield self.r
+        yield self.g
+        yield self.b
 
 
 @dataclass
