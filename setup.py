@@ -90,7 +90,7 @@ extensions = [
             "-Wno-c++11-extensions",
             "-Wno-tautological-constant-compare",
             "-Wno-unused-variable",
-        ]
+        ],
     ),
 ]
 
