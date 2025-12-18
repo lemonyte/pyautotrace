@@ -8,7 +8,7 @@ from autotrace import Bitmap, VectorFormat
 from PIL import Image
 
 # Load an image.
-image = np.asarray(Image.open("image.jpeg").convert("RGB"))
+image = np.array(Image.open("image.jpeg").convert("RGB"))
 
 # Create a bitmap.
 bitmap = Bitmap(image)
