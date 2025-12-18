@@ -7,7 +7,7 @@ import os
 import tempfile
 
 from ._autotrace cimport *
-from .autotrace import Color, Path, Point, Spline, Vector, VectorFormat
+from .autotrace import Color, Path, Point, PolynomialDegree Spline, Vector, VectorFormat
 
 
 # Allocate memory and initialize it to zero.
@@ -167,7 +167,7 @@ cdef at_splines_to_vector(at_spline_list_array_type *at_spline_list_array):
 
             spline = Spline(
                 points=[],
-                degree=at_spline.degree,
+                degree=PolynomialDegree(at_spline.degree),
                 linearity=at_spline.linearity,
                 _raw_spline=at_spline,
             )
