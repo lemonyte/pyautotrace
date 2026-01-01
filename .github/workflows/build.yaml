@@ -45,7 +45,7 @@ jobs:
         run: uv build --sdist
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: sdist
           path: ./dist/*.tar.gz
@@ -81,7 +81,7 @@ jobs:
         uses: pypa/cibuildwheel@v3.3.0
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: wheels-${{ matrix.os }}
           path: ./wheelhouse/*.whl
@@ -95,7 +95,7 @@ jobs:
       - build_wheels
     steps:
       - name: Merge artifacts
-        uses: actions/upload-artifact/merge@v5
+        uses: actions/upload-artifact/merge@v6
         with:
           name: wheels
           pattern: wheels-*
