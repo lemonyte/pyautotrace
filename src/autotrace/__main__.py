@@ -74,7 +74,7 @@ def main() -> None:
         help="Input image mode, passed to PIL.Image.convert().",
     )
     parser.add_argument(
-        "--format",
+        "--output-format",
         type=VectorFormat,
         default=None,
         help="Output vector format, by default inferred from file extension.",
@@ -112,7 +112,7 @@ def main() -> None:
             **{k: v for k, v in vars(args).items() if k in TraceOptions.__annotations__},
         ),
     )
-    vector.save(args.output_file, format=args.format)
+    vector.save(args.output_file, format=args.output_format)
 
 
 if __name__ == "__main__":
