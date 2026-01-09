@@ -603,6 +603,9 @@ source = { editable = "." }
 [package.dev-dependencies]
 dev = [
     { name = "cython" },
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "numpy", version = "2.3.5", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "pillow" },
     { name = "prek" },
     { name = "setuptools" },
     { name = "ty" },
@@ -612,9 +615,10 @@ docs = [
     { name = "ruff" },
     { name = "zensical" },
 ]
-numpy = [
+standard = [
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "numpy", version = "2.3.5", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "pillow" },
 ]
 test = [
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
@@ -627,6 +631,8 @@ test = [
 [package.metadata.requires-dev]
 dev = [
     { name = "cython", specifier = "~=3.2.2" },
+    { name = "numpy", specifier = ">=2.2.6,<3.0.0" },
+    { name = "pillow", specifier = "~=12.0.0" },
     { name = "prek", specifier = ">=0.2.27" },
     { name = "setuptools", specifier = ">=61" },
     { name = "ty", specifier = ">=0.0.2" },
@@ -636,7 +642,10 @@ docs = [
     { name = "ruff", specifier = ">=0.14.9" },
     { name = "zensical", specifier = ">=0.0.15" },
 ]
-numpy = [{ name = "numpy", specifier = ">=2.2.6,<3.0.0" }]
+standard = [
+    { name = "numpy", specifier = ">=2.2.6,<3.0.0" },
+    { name = "pillow", specifier = "~=12.0.0" },
+]
 test = [
     { name = "numpy", specifier = ">=2.2.6,<3.0.0" },
     { name = "pillow", specifier = "~=12.0.0" },
