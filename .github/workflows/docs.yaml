@@ -27,9 +27,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@v7
 
-      - run: uv sync --group docs --no-install-project
-
-      - run: uv run zensical build --clean
+      - run: uv run --only-group docs zensical build --clean
 
       - uses: actions/upload-pages-artifact@v4
         with:
