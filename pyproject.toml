@@ -22,6 +22,9 @@ classifiers = [
 [project.urls]
 Repository = "https://github.com/lemonyte/pyautotrace"
 
+[project.scripts]
+pyautotrace = "autotrace.__main__:main"
+
 [dependency-groups]
 dev = [
     "cython~=3.2.2",

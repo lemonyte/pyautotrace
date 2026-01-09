@@ -26,7 +26,7 @@ svg = vector.encode(VectorFormat.SVG)
 
 from importlib.metadata import version as _version
 
-from autotrace.autotrace import (
+from .autotrace import (
     Bitmap,
     Color,
     Path,
