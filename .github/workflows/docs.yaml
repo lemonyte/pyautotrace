@@ -27,7 +27,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@v7
 
-      - run: uv sync --all-groups
+      - run: uv sync --group docs --no-install-project
 
       - run: uv run zensical build --clean
 
