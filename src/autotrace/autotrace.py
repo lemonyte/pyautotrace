@@ -1,17 +1,13 @@
 """Python bindings for AutoTrace."""
 
-from __future__ import annotations
-
 import os
+from collections.abc import Iterator, Sequence
 from dataclasses import dataclass
 from enum import Enum, IntEnum
 from typing import TYPE_CHECKING, overload
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator, Sequence
-    from os import PathLike
-
-    import numpy as np
+    from numpy import uint8
     from numpy.typing import NDArray
 
 
@@ -215,7 +211,7 @@ class Vector:
 
     def save(
         self,
-        filename: PathLike | str | bytes,
+        filename: os.PathLike | str | bytes,
         /,
         *,
         format: VectorFormat | str | None = None,
@@ -247,7 +243,7 @@ class Vector:
 class Bitmap:
     """Represents a bitmap image."""
 
-    data: Sequence[Sequence[Sequence[int]]] | NDArray[np.uint8]
+    data: "Sequence[Sequence[Sequence[int]]] | NDArray[uint8]"
     """The bitmap data as a 3D sequence of pixel values or a NumPy array of shape (height, width, 3)."""
 
     def __len__(self) -> int:
