@@ -21,7 +21,7 @@ PyAutoTrace provides Python bindings for the [AutoTrace](https://github.com/auto
     ```
 
 !!! tip
-    The `[standard]` extra is optional, but makes it easy to load images in the correct array format.
+    The `[standard]` extra is optional, but makes it easy to load images in the correct array format and provides a [command-line interface](cli.md).
 
 Now check out the [How-to guides](how-to/) for usage examples!
 
