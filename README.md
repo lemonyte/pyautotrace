@@ -37,6 +37,12 @@ vector.save("image.svg")
 svg = vector.encode(VectorFormat.SVG)
 ```
 
+Or use the provided CLI:
+
+```shell
+pyautotrace in.png out.svg
+```
+
 ## Building
 
 See the [contribution guide](https://pyautotrace.lemonyte.com/contributing/#building-from-source) for instructions to build PyAutoTrace from source.
