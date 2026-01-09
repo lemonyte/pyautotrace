@@ -11,14 +11,17 @@ PyAutoTrace provides Python bindings for the [AutoTrace](https://github.com/auto
 === "uv"
 
     ```bash
-    uv add pyautotrace
+    uv add pyautotrace[standard]
     ```
 
 === "pip"
 
     ```bash
-    python -m pip install pyautotrace
+    python -m pip install pyautotrace[standard]
     ```
+
+!!! tip
+    The `[standard]` extra is optional, but makes it easy to load images in the correct array format.
 
 Now check out the [How-to guides](how-to/) for usage examples!
 

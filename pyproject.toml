@@ -29,11 +29,13 @@ dev = [
     "setuptools>=61",
     "ty>=0.0.2",
 ]
-test = [
-    {include-group = "numpy"},
+standard = [
+    "numpy>=2.2.6,<3.0.0",
     "pillow~=12.0.0",
 ]
-numpy = ["numpy>=2.2.6,<3.0.0"]
+test = [
+    {include-group = "standard"},
+]
 docs = [
     "mkdocstrings-python~=2.0.1",
     "ruff>=0.14.9",

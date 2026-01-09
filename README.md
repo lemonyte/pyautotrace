@@ -7,11 +7,11 @@ Python bindings for [AutoTrace](https://github.com/autotrace/autotrace).
 Install PyAutoTrace using your package manager of choice.
 
 ```shell
-uv add pyautotrace[numpy]
+uv add pyautotrace[standard]
 ```
 
 ```shell
-python -m pip install pyautotrace[numpy]
+python -m pip install pyautotrace[standard]
 ```
 
 ## Usage
