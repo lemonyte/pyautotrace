@@ -1,6 +1,6 @@
 [project]
 name = "pyautotrace"
-version = "0.0.6"
+version = "0.0.7"
 description = "Python bindings for AutoTrace."
 readme = "README.md"
 license = "LGPL-2.1-or-later"
