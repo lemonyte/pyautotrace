@@ -46,10 +46,20 @@ copyright = "Copyright &copy; 2026 Lemonyte"
 # can be defined using TOML syntax.
 #
 # Read more: https://zensical.org/docs/setup/navigation/
-# nav = [
-#   { "Get started" = "index.md" },
-#   { "Markdown in 5min" = "markdown.md" },
-# ]
+nav = [
+    "index.md",
+    "cli.md",
+    "contributing.md",
+    "reference.md",
+    "changelog.md",
+    { "How to" = [
+        "how-to/index.md",
+        "how-to/bitmap-to-vector.md",
+        "how-to/save-vector.md",
+        "how-to/encode-vector.md",
+        "how-to/eval-spline.md",
+    ] },
+]
 
 # With the "extra_css" option you can add your own CSS styling to customize
 # your Zensical project according to your needs. You can add any number of
