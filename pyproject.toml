@@ -3,7 +3,7 @@ name = "pyautotrace"
 version = "0.0.6"
 description = "Python bindings for AutoTrace."
 readme = "README.md"
-license = "MIT"
+license = "LGPL-2.1-or-later"
 license-files = ["LICENSE.txt", "LICENSE-autotrace.txt"]
 requires-python = ">=3.10"
 authors = [{ name = "Lemonyte", email = "contact@lemonyte.com" }]
