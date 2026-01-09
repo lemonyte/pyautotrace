@@ -4,10 +4,18 @@
 
 ### Added
 
+- Added command-line interface ([d033c9f](https://github.com/lemonyte/pyautotrace/commit/d033c9f))
+- Added documentation ([c643f55](https://github.com/lemonyte/pyautotrace/commit/c643f55))
 - Added missing docstrings ([ac1a421](https://github.com/lemonyte/pyautotrace/commit/ac1a421))
+
+### Changed
+
+- Replaced 'numpy' extra with 'standard' ([9873b18](https://github.com/lemonyte/pyautotrace/commit/9873b18))
 - Define version in pyproject.toml ([6094357](https://github.com/lemonyte/pyautotrace/commit/6094357))
-- Fix license specifier ([445fc4d](https://github.com/lemonyte/pyautotrace/commit/445fc4d))
-- Use builtin prek hooks ([32a3da8](https://github.com/lemonyte/pyautotrace/commit/32a3da8))
+
+### Fixed
+
+- Fixed license specifier ([445fc4d](https://github.com/lemonyte/pyautotrace/commit/445fc4d))
 
 ## [v0.0.6] (2025-12-18)
 
