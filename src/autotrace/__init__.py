@@ -24,6 +24,8 @@ svg = vector.encode(VectorFormat.SVG)
 ```
 """
 
+from importlib.metadata import version as _version
+
 from autotrace.autotrace import (
     Bitmap,
     Color,
@@ -48,4 +50,4 @@ __all__ = (
     "VectorFormat",
     "__version__",
 )
-__version__ = "0.0.6"
+__version__ = _version("pyautotrace")
