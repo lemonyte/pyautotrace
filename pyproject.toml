@@ -35,7 +35,7 @@ dev = [
 ]
 standard = [
     "numpy>=2.2.6,<3.0.0",
-    "pillow~=12.0.0",
+    "pillow>=12.0,<12.2",
 ]
 test = [
     {include-group = "standard"},
