@@ -8,7 +8,7 @@ icon: lucide/heart
 Contributions of any kind are welcome!
 Whether it's a bug report, feature request, typo fix, new implementation, or documentation improvement, it goes a long way to help a solo dev.
 
-Any contributions you make will be merged under the project's [license](../index.md#license).
+Any contributions you make will be merged under the project's [license](index.md#license).
 
 ## Building from source
 
