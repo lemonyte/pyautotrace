@@ -18,7 +18,7 @@ You can then use the `pyautotrace` command in your terminal:
 pyautotrace in.png out.svg
 ```
 
-The options available for the command correspond to the attributes of the [`TraceOptions`](../reference.md#autotrace.TraceOptions) class, with the addition of `--input-mode` to specify the input image mode for Pillow, and `--output-format` to specify the output vector format.
+The options available for the command correspond to the attributes of the [`TraceOptions`](reference.md#autotrace.TraceOptions) class, with the addition of `--input-mode` to specify the input image mode for Pillow, and `--output-format` to specify the [output vector format](reference.md#autotrace.VectorFormat).
 
 See [Pillow's documentation](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes) for more information on image modes.
 
