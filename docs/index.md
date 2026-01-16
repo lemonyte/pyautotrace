@@ -29,7 +29,7 @@ Now check out the [How-to guides](how-to/) for usage examples!
 
 This project is licensed under the **LGPLv2.1** license.
 
-This project depends on the AutoTrace project, which is licensed under the [LGPLv2.1](https://github.com/autotrace/autotrace/blob/master/COPYING.LIB) license.
+This project depends on the AutoTrace library, which is licensed under the [LGPLv2.1](https://github.com/autotrace/autotrace/blob/master/COPYING.LIB) license.
 
 AutoTrace, and by extension this project, requires the presence of GLib to compile, which is licensed under the [LGPLv2.1](https://github.com/GNOME/glib/blob/main/COPYING) license, but this project does not depend on GLib to run.
 
