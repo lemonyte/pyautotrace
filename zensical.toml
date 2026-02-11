@@ -95,7 +95,7 @@ nav = [
 # Read more:
 # - https://zensical.org/docs/customization/#extending-the-theme
 #
-# custom_dir = "overrides"
+custom_dir = "docs/overrides"
 
 # With the "favicon" option you can set your own image to use as the icon
 # browsers will use in the browser title bar or tab bar. The path provided
@@ -372,3 +372,6 @@ link = "https://github.com/lemonyte"
 [[project.extra.social]]
 icon = "fontawesome/solid/globe"
 link = "https://lemonyte.com"
+
+[project.extra.analytics]
+provider = "custom"
