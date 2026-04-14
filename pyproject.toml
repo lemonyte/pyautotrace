@@ -43,7 +43,7 @@ test = [
 docs = [
     "mkdocstrings-python~=2.0.1",
     "ruff~=0.14.9",
-    "zensical~=0.0.15",
+    "zensical~=0.0.33",
 ]
 
 [build-system]
