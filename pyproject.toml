@@ -28,7 +28,7 @@ pyautotrace = "autotrace.__main__:main"
 [dependency-groups]
 dev = [
     "cython~=3.2.2",
-    "prek~=0.2.27",
+    "prek>=0.2.27,<0.5.0",
     "setuptools~=80.0.0",
     "ty~=0.0.2",
     {include-group = "standard"},
@@ -42,7 +42,7 @@ test = [
 ]
 docs = [
     "mkdocstrings-python~=2.0.1",
-    "ruff~=0.14.9",
+    "ruff>=0.14.9,<0.16.0",
     "zensical~=0.0.33",
 ]
 
