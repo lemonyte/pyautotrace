@@ -30,7 +30,6 @@ dev = [
     "cython~=3.2.5",
     "prek~=0.4.5",
     "setuptools~=82.0.1",
-    "ty~=0.0.49",
     {include-group = "standard"},
 ]
 standard = [
