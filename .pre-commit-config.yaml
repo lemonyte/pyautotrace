@@ -19,3 +19,4 @@ repos:
     rev: v0.0.78
     hooks:
       - id: ty
+        args: [--no-install-project]
