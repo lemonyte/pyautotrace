@@ -11,7 +11,7 @@ import numpy as np
 from PIL import Image
 
 # Load the bitmap image using Pillow.
-image = Image.open("input_image.png").convert("RGB") # (1)!
+image = Image.open("input_image.png").convert("RGB")  # (1)!
 
 # Convert the image to a NumPy array.
 bitmap_data = np.array(image)
