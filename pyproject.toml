@@ -29,7 +29,7 @@ pyautotrace = "autotrace.__main__:main"
 dev = [
     "cython>=3.2.5,<3.4.0",
     "prek>=0.4.5,<0.6.0",
-    "setuptools>=82.0.1,<83.1.0",
+    "setuptools>=82.0.1,<84.1.0",
     {include-group = "standard"},
 ]
 standard = [
@@ -46,7 +46,7 @@ docs = [
 ]
 
 [build-system]
-requires = ["cython>=3.2.5,<3.4.0", "setuptools>=82.0.1,<83.1.0"]
+requires = ["cython>=3.2.5,<3.4.0", "setuptools>=82.0.1,<84.1.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
