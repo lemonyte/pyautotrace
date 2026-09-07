@@ -59,7 +59,7 @@ if platform.system() == "Windows":
     )
 elif platform.system() in ("Linux", "Darwin"):
     cflags = subprocess.run(
-        ("pkg-config", "--cflags", "glib-2.0"),
+        ("/usr/bin/env", "pkg-config", "--cflags", "glib-2.0"),
         capture_output=True,
         check=True,
         text=True,
