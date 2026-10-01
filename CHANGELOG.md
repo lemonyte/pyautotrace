@@ -2,9 +2,19 @@
 
 ## [unreleased]
 
+### Added
+
+- Allow passing tuples to color params ([d1197d6](https://github.com/lemonyte/pyautotrace/commit/d1197d6))
+- Propagate AutoTrace errors and warnings ([17f7e38](https://github.com/lemonyte/pyautotrace/commit/17f7e38))
+
 ### Changed
 
 - Relicensed as GPLv2 or later ([4164c8d](https://github.com/lemonyte/pyautotrace/commit/4164c8d))
+
+### Fixed
+
+- Handle transparent images ([3855301](https://github.com/lemonyte/pyautotrace/commit/3855301))
+- Avoid leaking memory on errors ([17f7e38](https://github.com/lemonyte/pyautotrace/commit/17f7e38))
 
 ## [v0.0.7] (2026-01-09)
 
