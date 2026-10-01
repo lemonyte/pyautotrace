@@ -5,6 +5,7 @@ cimport libc.stdio
 
 import os
 import tempfile
+import warnings
 
 from ._autotrace cimport *
 from .autotrace import Color, Path, Point, PolynomialDegree, Spline, Vector, VectorFormat
@@ -51,20 +52,24 @@ cdef at_bitmap *array_to_at_bitmap(data, background_color = None):
     cdef at_bitmap *bitmap = at_bitmap_new(width, height, np)
 
     cdef unsigned int x, y, p, value, alpha, i = 0
-    for y in range(height):
-        for x in range(width):
-            pixel = data[y][x]
+    try:
+        for y in range(height):
+            for x in range(width):
+                pixel = data[y][x]
 
-            if has_alpha:
-                alpha = pixel[3]
-                for p in range(np):
-                    value = pixel[p]
-                    bitmap.bitmap[i] = (value * alpha + background[p] * (255 - alpha) + 127) // 255
-                    i += 1
-            else:
-                for p in range(np):
-                    bitmap.bitmap[i] = pixel[p]
-                    i += 1
+                if has_alpha:
+                    alpha = pixel[3]
+                    for p in range(np):
+                        value = pixel[p]
+                        bitmap.bitmap[i] = (value * alpha + background[p] * (255 - alpha) + 127) // 255
+                        i += 1
+                else:
+                    for p in range(np):
+                        bitmap.bitmap[i] = pixel[p]
+                        i += 1
+    except:
+        at_bitmap_free(bitmap)
+        raise
 
     return bitmap
 
@@ -73,30 +78,34 @@ cdef at_bitmap *array_to_at_bitmap(data, background_color = None):
 cdef at_fitting_opts_type *trace_options_to_at_fitting_opts(options):
     cdef at_fitting_opts_type *opts = at_fitting_opts_new()
 
-    if options.background_color is not None:
-        opts.background_color = at_color_new(
-            options.background_color.r,
-            options.background_color.g,
-            options.background_color.b,
-        )
+    try:
+        if options.background_color is not None:
+            opts.background_color = at_color_new(
+                options.background_color.r,
+                options.background_color.g,
+                options.background_color.b,
+            )
 
-    opts.charcode = options.charcode
-    opts.color_count = options.color_count
-    opts.corner_always_threshold = options.corner_always_threshold
-    opts.corner_surround = options.corner_surround
-    opts.corner_threshold = options.corner_threshold
-    opts.error_threshold = options.error_threshold
-    opts.filter_iterations = options.filter_iterations
-    opts.line_reversion_threshold = options.line_reversion_threshold
-    opts.line_threshold = options.line_threshold
-    opts.remove_adjacent_corners = options.remove_adjacent_corners
-    opts.tangent_surround = options.tangent_surround
-    opts.despeckle_level = options.despeckle_level
-    opts.despeckle_tightness = options.despeckle_tightness
-    opts.noise_removal = options.noise_removal
-    opts.centerline = options.centerline
-    opts.preserve_width = options.preserve_width
-    opts.width_weight_factor = options.width_weight_factor
+        opts.charcode = options.charcode
+        opts.color_count = options.color_count
+        opts.corner_always_threshold = options.corner_always_threshold
+        opts.corner_surround = options.corner_surround
+        opts.corner_threshold = options.corner_threshold
+        opts.error_threshold = options.error_threshold
+        opts.filter_iterations = options.filter_iterations
+        opts.line_reversion_threshold = options.line_reversion_threshold
+        opts.line_threshold = options.line_threshold
+        opts.remove_adjacent_corners = options.remove_adjacent_corners
+        opts.tangent_surround = options.tangent_surround
+        opts.despeckle_level = options.despeckle_level
+        opts.despeckle_tightness = options.despeckle_tightness
+        opts.noise_removal = options.noise_removal
+        opts.centerline = options.centerline
+        opts.preserve_width = options.preserve_width
+        opts.width_weight_factor = options.width_weight_factor
+    except:
+        at_fitting_opts_free(opts)
+        raise
 
     return opts
 
@@ -105,45 +114,49 @@ cdef at_fitting_opts_type *trace_options_to_at_fitting_opts(options):
 cdef at_spline_list_array_type *vector_to_at_splines(vector):
     at_spline_list_array = <at_spline_list_array_type *>alloc(sizeof(at_spline_list_array_type))
 
-    if vector.background_color is not None:
-        at_spline_list_array.background_color = at_color_new(
-            vector.background_color.r,
-            vector.background_color.g,
-            vector.background_color.b,
-        )
-
-    at_spline_list_array.width = vector.width
-    at_spline_list_array.height = vector.height
-    at_spline_list_array.centerline = vector.centerline
-    at_spline_list_array.preserve_width = vector.preserve_width
-    at_spline_list_array.width_weight_factor = vector.width_weight_factor
-    at_spline_list_array.length = len(vector)
-    at_spline_list_array.data = <at_spline_list_type *>alloc(sizeof(at_spline_list_type) * at_spline_list_array.length)
-
     cdef unsigned int i, j, k = 0
-    for i in range(len(vector)):
-        path = vector.paths[i]
+    try:
+        if vector.background_color is not None:
+            at_spline_list_array.background_color = at_color_new(
+                vector.background_color.r,
+                vector.background_color.g,
+                vector.background_color.b,
+            )
 
-        at_spline_list = &at_spline_list_array.data[i]
-        at_spline_list.color.r = path.color.r
-        at_spline_list.color.g = path.color.g
-        at_spline_list.color.b = path.color.b
-        at_spline_list.clockwise = path.clockwise
-        at_spline_list.open = path.open
-        at_spline_list.length = len(path)
-        at_spline_list.data = <at_spline_type *>alloc(sizeof(at_spline_type) * at_spline_list.length)
+        at_spline_list_array.width = vector.width
+        at_spline_list_array.height = vector.height
+        at_spline_list_array.centerline = vector.centerline
+        at_spline_list_array.preserve_width = vector.preserve_width
+        at_spline_list_array.width_weight_factor = vector.width_weight_factor
+        at_spline_list_array.data = <at_spline_list_type *>alloc(sizeof(at_spline_list_type) * len(vector))
+        at_spline_list_array.length = len(vector)
 
-        for j in range(len(path)):
-            spline = path.splines[j]
+        for i in range(len(vector)):
+            path = vector.paths[i]
 
-            at_spline = &at_spline_list.data[j]
-            at_spline.degree = spline.degree
-            at_spline.linearity = spline.linearity
+            at_spline_list = &at_spline_list_array.data[i]
+            at_spline_list.color.r = path.color.r
+            at_spline_list.color.g = path.color.g
+            at_spline_list.color.b = path.color.b
+            at_spline_list.clockwise = path.clockwise
+            at_spline_list.open = path.open
+            at_spline_list.data = <at_spline_type *>alloc(sizeof(at_spline_type) * len(path))
+            at_spline_list.length = len(path)
 
-            for k in range(4):
-                at_spline.v[k].x = spline.points[k].x
-                at_spline.v[k].y = spline.points[k].y
-                at_spline.v[k].z = spline.points[k].z
+            for j in range(len(path)):
+                spline = path.splines[j]
+
+                at_spline = &at_spline_list.data[j]
+                at_spline.degree = spline.degree
+                at_spline.linearity = spline.linearity
+
+                for k in range(4):
+                    at_spline.v[k].x = spline.points[k].x
+                    at_spline.v[k].y = spline.points[k].y
+                    at_spline.v[k].z = spline.points[k].z
+    except:
+        at_splines_free(at_spline_list_array)
+        raise
 
     return at_spline_list_array
 
@@ -212,25 +225,58 @@ cdef at_splines_to_vector(at_spline_list_array_type *at_spline_list_array):
     return vector
 
 
+# Collect fatal error and warning messages reported by AutoTrace.
+# 'client_data' is a borrowed reference to a tuple of two Python lists, (errors, warnings).
+cdef void on_trace_message(const gchar *msg, at_msg_type msg_type, gpointer client_data) noexcept:
+    errors, warning_messages = <tuple>client_data
+    if msg_type == AT_MSG_FATAL:
+        errors.append(msg.decode("utf-8", "replace"))
+    elif msg_type == AT_MSG_WARNING:
+        warning_messages.append(msg.decode("utf-8", "replace"))
+
+
 # Trace a bitmap image.
 def trace(data, options = None):
-    cdef at_bitmap *bitmap = array_to_at_bitmap(
-        data,
-        options.background_color if options is not None else None,
-    )
-    cdef at_fitting_opts_type *opts
+    cdef at_bitmap *bitmap = NULL
+    cdef at_fitting_opts_type *opts = NULL
+    cdef at_spline_list_array_type *at_spline_list_array = NULL
 
-    if options is not None:
-        opts = trace_options_to_at_fitting_opts(options)
-    else:
-        opts = at_fitting_opts_new()
+    errors = []
+    warning_messages = []
+    messages = (errors, warning_messages)
+    try:
+        bitmap = array_to_at_bitmap(
+            data,
+            options.background_color if options is not None else None,
+        )
 
-    cdef at_spline_list_array_type *at_spline_list_array = at_splines_new(bitmap, opts, NULL, NULL)
-    vector = at_splines_to_vector(at_spline_list_array)
+        if options is not None:
+            opts = trace_options_to_at_fitting_opts(options)
+        else:
+            opts = at_fitting_opts_new()
 
-    at_bitmap_free(bitmap)
-    at_fitting_opts_free(opts)
-    at_splines_free(at_spline_list_array)
+        at_spline_list_array = at_splines_new(bitmap, opts, on_trace_message, <gpointer>messages)
+    finally:
+        if bitmap != NULL:
+            at_bitmap_free(bitmap)
+        if opts != NULL:
+            at_fitting_opts_free(opts)
+
+    try:
+        for message in warning_messages:
+            warnings.warn(f"AutoTrace: {message}", RuntimeWarning, stacklevel=2)
+
+        if errors:
+            raise RuntimeError(f"AutoTrace failed: {errors[0]}")
+
+        vector = at_splines_to_vector(at_spline_list_array)
+    finally:
+        if errors:
+            # On a fatal error AutoTrace returns either NULL or an uninitialized struct,
+            # so the struct itself is freed without touching its contents.
+            libc.stdlib.free(at_spline_list_array)
+        else:
+            at_splines_free(at_spline_list_array)
 
     return vector
 
@@ -272,11 +318,12 @@ def save(vector, filename, format = None):
         if writer is NULL:
             raise ValueError(f"unknown output format '{format}'")
 
+    cdef at_spline_list_array_type *at_spline_list_array = vector_to_at_splines(vector)
+
     cdef FILE *fd = libc.stdio.fopen(filename_bytes, "wb")
     if fd is NULL:
+        at_splines_free(at_spline_list_array)
         raise IOError(f"could not open file '{filename}' for writing")
-
-    cdef at_spline_list_array_type *at_spline_list_array = vector_to_at_splines(vector)
 
     at_splines_write(writer, fd, filename_bytes, NULL, at_spline_list_array, NULL, NULL)
 
