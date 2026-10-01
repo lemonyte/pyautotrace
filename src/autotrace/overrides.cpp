@@ -5,6 +5,24 @@
  *
  * GLib & GObject repository: https://gitlab.gnome.org/GNOME/glib
  * AutoTrace repository: https://github.com/autotrace/autotrace
+ *
+ * GLib & GObject portions:
+ *   Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
+ *   Copyright (C) 1998 Tim Janik
+ *   Copyright (C) 2000-2001 Red Hat, Inc.
+ *   Copyright (C) 2007 Imendio AB
+ *   Modified by the GLib Team and others 1997-2000.
+ *   SPDX-License-Identifier: LGPL-2.1-or-later
+ *
+ * AutoTrace portions (input.c, input-gf.c, output.c):
+ *   Copyright (C) 1999, 2000, 2001 Bernhard Herzog.
+ *   Copyright (C) 2003 Masatake YAMATO
+ *   Copyright (C) 2003 Serge Vakulenko
+ *   SPDX-License-Identifier: LGPL-2.1-or-later
+ *
+ * AutoTrace portions (datetime.c):
+ *   Copyright (C) 2023 Peter Lemenkov
+ *   SPDX-License-Identifier: GPL-2.0-or-later
  */
 
 #include <stdlib.h>

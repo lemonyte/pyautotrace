@@ -53,6 +53,6 @@ See the [contribution guide](https://pyautotrace.lemonyte.com/contributing/#buil
 
 ## License
 
-This project is licensed under the [LGPLv2.1](LICENSE.txt) license.
+This project is licensed under the [GPLv2 or later](LICENSE.txt) license.
 
 See the [documentation](https://pyautotrace.lemonyte.com/#license) for details about the licenses of upstream and included code.

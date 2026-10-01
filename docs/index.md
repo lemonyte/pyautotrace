@@ -27,10 +27,10 @@ Now check out the [How-to guides](how-to/) for usage examples!
 
 ## License
 
-This project is licensed under the **LGPLv2.1** license.
+This project is licensed under the **GPLv2 or later** license.
 
-This project depends on the AutoTrace library, which is licensed under the [LGPLv2.1](https://github.com/autotrace/autotrace/blob/master/COPYING.LIB) license.
+This project depends on the AutoTrace library, which is licensed under the [GPLv2 or later](https://github.com/autotrace/autotrace/blob/master/COPYING) license. AutoTrace's input and output modules are also available under the [LGPLv2.1](https://github.com/autotrace/autotrace/blob/master/COPYING.LIB) license.
 
-AutoTrace, and by extension this project, requires the presence of GLib to compile, which is licensed under the [LGPLv2.1](https://github.com/GNOME/glib/blob/main/COPYING) license, but this project does not depend on GLib to run.
+AutoTrace, and by extension this project, requires the presence of GLib to compile, which is licensed under the [LGPLv2.1 or later](https://gitlab.gnome.org/GNOME/glib/-/blob/main/LICENSES/LGPL-2.1-or-later.txt) license, but this project does not depend on GLib at runtime.
 
 This project contains code that replaces portions of [AutoTrace](https://github.com/autotrace/autotrace) and [GLib](https://github.com/GNOME/glib), defined in [`overrides.cpp`](https://github.com/lemonyte/pyautotrace/blob/main/src/autotrace/overrides.cpp). Some of the implementations were taken directly from, or are based on, the source code of their respective libraries.

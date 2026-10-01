@@ -3,8 +3,8 @@ name = "pyautotrace"
 version = "0.0.7"
 description = "Python bindings for AutoTrace."
 readme = "README.md"
-license = "LGPL-2.1-or-later"
-license-files = ["LICENSE.txt", "LICENSE-autotrace.txt"]
+license = "GPL-2.0-or-later"
+license-files = ["LICENSE.txt", "LICENSE-autotrace.txt", "LICENSE-autotrace-lib.txt", "LICENSE-glib.txt"]
 requires-python = ">=3.10"
 authors = [{ name = "Lemonyte", email = "contact@lemonyte.com" }]
 keywords = ["autotrace", "bitmap", "graphics", "tracing", "vector"]
