@@ -1,10 +1,10 @@
 """Python bindings for AutoTrace."""
 
 import os
-from collections.abc import Iterator, Sequence
+from collections.abc import Sequence
 from dataclasses import dataclass
 from enum import Enum, IntEnum
-from typing import TYPE_CHECKING, overload
+from typing import TYPE_CHECKING, NamedTuple, overload
 
 if TYPE_CHECKING:
     from numpy import uint8
@@ -63,8 +63,7 @@ class PolynomialDegree(IntEnum):
     CIRCLE = 6
 
 
-@dataclass
-class Point:
+class Point(NamedTuple):
     """Represents a real coordinate point."""
 
     x: float
@@ -74,14 +73,8 @@ class Point:
     z: float
     """The z coordinate."""
 
-    def __iter__(self) -> Iterator[float]:
-        yield self.x
-        yield self.y
-        yield self.z
 
-
-@dataclass
-class Color:
+class Color(NamedTuple):
     """Represents a color. All components are in the range `0..255`."""
 
     r: int
@@ -91,17 +84,12 @@ class Color:
     b: int
     """The blue component."""
 
-    def __iter__(self) -> Iterator[int]:
-        yield self.r
-        yield self.g
-        yield self.b
-
 
 @dataclass
 class TraceOptions:
     """Options for tracing an image."""
 
-    background_color: Color | None = None
+    background_color: Color | tuple[int, int, int] | None = None
     """The color of the background that should be ignored."""
     charcode: int = 0
     """Code of character to load from GF file, allowed are 0..255; default is the first character in font."""
@@ -253,7 +241,7 @@ class Bitmap:
     def trace(
         self,
         *,
-        background_color: Color | None = None,
+        background_color: Color | tuple[int, int, int] | None = None,
         charcode: int = 0,
         color_count: int = 0,
         corner_always_threshold: float = 60.0,
@@ -283,7 +271,7 @@ class Bitmap:
     def trace(  # noqa: PLR0913
         self,
         *,
-        background_color: Color | None = None,
+        background_color: Color | tuple[int, int, int] | None = None,
         charcode: int = 0,
         color_count: int = 0,
         corner_always_threshold: float = 60.0,
@@ -333,6 +321,9 @@ class Bitmap:
                 preserve_width=preserve_width,
                 width_weight_factor=width_weight_factor,
             )
+
+        if options.background_color:
+            options.background_color = Color(*options.background_color)
 
         return _trace(self.data, options)
 
