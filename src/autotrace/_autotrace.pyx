@@ -28,19 +28,43 @@ cdef void at_fitting_opts_free(at_fitting_opts_type *opts):
 
 
 # Convert an array object to an at_bitmap struct.
-cdef at_bitmap *array_to_at_bitmap(data):
+# AutoTrace only supports 1 (grayscale) or 3 (RGB) planes, so the alpha channel of RGBA data
+# is composited onto the background color, or onto white if no background color is given.
+cdef at_bitmap *array_to_at_bitmap(data, background_color = None):
     cdef unsigned int height = len(data)
     cdef unsigned int width = len(data[0])
     cdef unsigned int np = len(data[0][0])
 
+    if np != 1 and np != 3 and np != 4:
+        raise ValueError(f"bitmap must have 1, 3, or 4 channels, got {np}")
+
+    cdef bint has_alpha = np == 4
+    cdef unsigned int background[3]
+    background[0] = background[1] = background[2] = 255
+    if has_alpha:
+        np = 3
+        if background_color is not None:
+            background[0] = background_color.r
+            background[1] = background_color.g
+            background[2] = background_color.b
+
     cdef at_bitmap *bitmap = at_bitmap_new(width, height, np)
 
-    cdef unsigned int x, y, p, i = 0
+    cdef unsigned int x, y, p, value, alpha, i = 0
     for y in range(height):
         for x in range(width):
-            for p in range(np):
-                bitmap.bitmap[i] = data[y][x][p]
-                i += 1
+            pixel = data[y][x]
+
+            if has_alpha:
+                alpha = pixel[3]
+                for p in range(np):
+                    value = pixel[p]
+                    bitmap.bitmap[i] = (value * alpha + background[p] * (255 - alpha) + 127) // 255
+                    i += 1
+            else:
+                for p in range(np):
+                    bitmap.bitmap[i] = pixel[p]
+                    i += 1
 
     return bitmap
 
@@ -190,7 +214,10 @@ cdef at_splines_to_vector(at_spline_list_array_type *at_spline_list_array):
 
 # Trace a bitmap image.
 def trace(data, options = None):
-    cdef at_bitmap *bitmap = array_to_at_bitmap(data)
+    cdef at_bitmap *bitmap = array_to_at_bitmap(
+        data,
+        options.background_color if options is not None else None,
+    )
     cdef at_fitting_opts_type *opts
 
     if options is not None:
