@@ -1,5 +1,11 @@
 # Changelog
 
+## [unreleased]
+
+### Changed
+
+- Relicensed as GPLv2 or later ([4164c8d](https://github.com/lemonyte/pyautotrace/commit/4164c8d))
+
 ## [v0.0.7] (2026-01-09)
 
 ### Added
