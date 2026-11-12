@@ -64,6 +64,7 @@ extern "C"
         return realloc(mem, n_bytes);
     }
 
+#undef g_free
     void g_free(gpointer mem)
     {
         free(mem);
